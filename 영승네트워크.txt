@@ -1,0 +1,51 @@
+- node.js 설치
+https://nodejs.org/ko/download/
+
+- oracle 모듈 설치
+https://meyouus.tistory.com/66
+
+- 노드 환경변수 셋팅
+https://wikim.tistory.com/245
+
+==========
+
+
+create table cphPrintCall(
+        pck varchar2(70) constraint cphPrintCall_pck_pk primary key,
+        execType varchar2(1),
+        patId varchar2(9),
+        recNo varchar2(10),
+        recDate date,
+        drugNo varchar2(10),
+        printer varchar2(10),
+        ubiArgs varchar2(1000)
+        )
+        pctfree      20
+        pctused      40
+        tablespace   DBSPACE4
+        storage(initial 50K  next 10K  pctincrease 0);
+        
+        COMMENT ON COLUMN cphDisp.pck IS '시퀀스 식별키';
+        COMMENT ON COLUMN cphDisp.execType IS '예외처리';
+        COMMENT ON COLUMN cphDisp.patId IS '병록번호';
+        COMMENT ON COLUMN cphDisp.recNo IS '접수번호';
+        COMMENT ON COLUMN cphDisp.recDate IS '접수날자';
+        COMMENT ON COLUMN cphDisp.drugNo IS '투약번호';
+        COMMENT ON COLUMN cphDisp.printer IS '프린터';
+        COMMENT ON COLUMN cphDisp.ubiArgs IS '유비아이아규먼트';
+
+        
+	
+        CREATE SEQUENCE SEQ_PRINT_CALL
+        START WITH 1
+        INCREMENT BY 1
+        MAXVALUE 10000
+        MINVALUE 1
+        CYCLE;
+
+
+ALTER SEQUENCE SEQ_PRINT_CALL
+    INCREMENT BY 1
+    MAXVALUE 100000 
+    MINVALUE 1
+    CYCLE ;
