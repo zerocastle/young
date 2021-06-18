@@ -1,9 +1,15 @@
 var oracledb = require('oracledb');
-//var dbConfig = require('../config/dbConfig');
+var dbConfig = require('../young/config/dbConfig.js');
 // Express 기본 모듈 불러오기
 var express = require('express')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , fs = require('fs')
+  , ejs = require('ejs')
+  , JSONStream = require('JSONStream')
+  , async = require('async')
+  , url = require('url');
+
 
 // 익스프레스 객체 생성
 var app = express();
@@ -28,7 +34,7 @@ app.get('/',function(req,res){
 })
 
 // 데이터 조회 처리
-app.get('/dbTestSelect', function(request, response){
+router.get('/dbTestSelect', function(request, response){
 
     console.log('여기 탐?');
 
@@ -73,58 +79,58 @@ app.get('/dbTestSelect', function(request, response){
 
 
 // 데이터 입력 처리
-// router.post('/dbTestInsert', function(request, response){
+router.post('/dbTestInsert', function(request, response){
 
-//     oracledb.getConnection({
-//         user            : dbConfig.user,
-//         password        : dbConfig.password,
-//         connectString   : dbConfig.connectString
-//     },
-//     function(err, connection) {
-//         if (err) {
-//             console.error(err.message);
-//             return;
-//         }
+    oracledb.getConnection({
+        user            : dbConfig.user,
+        password        : dbConfig.password,
+        connectString   : dbConfig.connectString
+    },
+    function(err, connection) {
+        if (err) {
+            console.error(err.message);
+            return;
+        }
 
-//         // PrepareStatement 구조
-//         let query = 
-//             'INSERT INTO EMP( EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) ' +
-//               'VALUES( :EMPNO ,:ENAME, :JOB, :MGR, SYSDATE, :SAL, :COMM, :DEPTNO )';
+        // PrepareStatement 구조
+        let query = 
+            'INSERT INTO EMP( EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) ' +
+              'VALUES( :EMPNO ,:ENAME, :JOB, :MGR, SYSDATE, :SAL, :COMM, :DEPTNO )';
 
-//         let binddata = [
-//             Number(request.body.empno),
-//             request.body.ename,
-//             request.body.job,
-//             request.body.mgr,
-//             Number(request.body.sal),
-//             Number(request.body.comm),
-//             Number(request.body.deptno)            
-//         ];
+        let binddata = [
+            Number(request.body.empno),
+            request.body.ename,
+            request.body.job,
+            request.body.mgr,
+            Number(request.body.sal),
+            Number(request.body.comm),
+            Number(request.body.deptno)            
+        ];
 
-//         connection.execute(query, binddata, function (err, result) {
-//             if (err) {
-//                 console.error(err.message);
-//                 doRelease(connection);
-//                 return;
-//             }
-//             console.log('Row Insert: ' + result.rowsAffected);
+        connection.execute(query, binddata, function (err, result) {
+            if (err) {
+                console.error(err.message);
+                doRelease(connection);
+                return;
+            }
+            console.log('Row Insert: ' + result.rowsAffected);
 
-//             doRelease(connection, result.rowsAffected);         // Connection 해제
-//         });
-//     });    
+            doRelease(connection, result.rowsAffected);         // Connection 해제
+        });
+    });    
 
-//     // DB 연결 해제
-//     function doRelease(connection, result) {
-//         connection.release(function (err) {
-//             if (err) {
-//                 console.error(err.message);
-//             }
+    // DB 연결 해제
+    function doRelease(connection, result) {
+        connection.release(function (err) {
+            if (err) {
+                console.error(err.message);
+            }
 
-//             // DB종료까지 모두 완료되었을 시 응답 데이터 반환
-//             response.send(''+result);
-//         });
-//     }
-// });
+            // DB종료까지 모두 완료되었을 시 응답 데이터 반환
+            response.send(''+result);
+        });
+    }
+});
 
 // 라우터 객체를 app 객체에 등록
 app.use('/', router);
