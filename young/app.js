@@ -1,5 +1,5 @@
 var oracledb = require('oracledb');
-var dbConfig = require('../young/config/dbConfig.js');
+var dbConfig = require('./config/dbConfig.js');
 // Express 기본 모듈 불러오기
 var express = require('express')
   , http = require('http')
@@ -131,6 +131,10 @@ router.post('/dbTestInsert', function(request, response){
         });
     }
 });
+
+var login = require("./custom_module/api/login.js");
+app.get("/login", login.listener);
+app.post("/login", login.listener);
 
 // 라우터 객체를 app 객체에 등록
 app.use('/', router);
