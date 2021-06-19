@@ -49,3 +49,15 @@ ALTER SEQUENCE SEQ_PRINT_CALL
     MAXVALUE 100000 
     MINVALUE 1
     CYCLE ;
+
+======================= visual studio flutter 강좌 ====================
+https://www.youtube.com/channel/UC_2ge45JCuJH1z6VYt4iCgQ
+
+
+======================= 내꺼 안드로이드 sdk 주소 ====================
+
+C:\Users\ring3\AppData\Local\Android\Sdk
+
+
+======================= flutter 명령어 ==============
+flutter select device

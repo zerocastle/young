@@ -18,10 +18,10 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 
 // body-parser
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.json());
 
 // 라우터 객체 참조
 var router = express.Router();
