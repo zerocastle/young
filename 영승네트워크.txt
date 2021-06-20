@@ -61,3 +61,8 @@ C:\Users\ring3\AppData\Local\Android\Sdk
 
 ======================= flutter 명령어 ==============
 flutter select device
+
+pubspec.yaml 수정을 하면 
+	fluter pub get
+	flutter upgrade
+명령어를 순서대로 기입해준다. vsCode 는 상관 없음
