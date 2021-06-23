@@ -73,3 +73,5 @@ https://velog.io/@adbr/flutter-font-%EC%A0%81%EC%9A%A9 (폰트 라이브러리)
 https://yoonjaepark.github.io/2020-01-19/flutter-bottom-navigation( 하단 네비게이션 바)
 
 https://security-nanglam.tistory.com/484
+
+https://www.youtube.com/watch?v=Y0IKGgBM8zo&list=PLgRxBCVPaZ_3jdqcrGKgbQrDwRXMHaE5B&index=2 (firebase sns 연동)
