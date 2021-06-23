@@ -66,3 +66,8 @@ pubspec.yaml 수정을 하면
 	fluter pub get
 	flutter upgrade
 명령어를 순서대로 기입해준다. vsCode 는 상관 없음
+
+=======================flutter 기능 참고 사이트 =====================
+https://velog.io/@adbr/flutter-font-%EC%A0%81%EC%9A%A9 (폰트 라이브러리)
+
+https://yoonjaepark.github.io/2020-01-19/flutter-bottom-navigation( 하단 네비게이션 바)
