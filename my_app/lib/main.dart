@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/src/app.dart';
 void main() => runApp(MyApp());
 
 
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: green
       ),
-      home: MyHomePage(title: '군다방'),
+      // home: MyHomePage(title: '군다방'),
+      home: App(),
     );
   }
 }
