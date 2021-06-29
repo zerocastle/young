@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/app.dart';
+// import 'package:my_app/src/app.dart';
+// import 'package:my_app/src/pages/community.dart';
 void main() => runApp(MyApp());
 
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: green
       ),
-      // home: MyHomePage(title: '군다방'),
-      home: App(),
+      home: MyHomePage(title: '군다방'),
+      // home: Community(),
     );
   }
 }
