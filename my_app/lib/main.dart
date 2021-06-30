@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:my_app/src/app.dart';
-// import 'package:my_app/src/pages/community.dart';
+import 'package:my_app/src/pages/community.dart';
 void main() => runApp(MyApp());
 
 
@@ -14,8 +14,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: green
       ),
-      home: MyHomePage(title: '군다방'),
-      // home: Community(),
+      // home: MyHomePage(title: '군다방'),
+      initialRoute: '/',
+      routes: {
+        '/'  : (context) => MyHomePage(title: '군다방'),
+        '/community' : (context) => Community(),
+      },
     );
   }
 }
@@ -45,7 +49,14 @@ class MyHomePage extends StatelessWidget {
             icon: Icon(Icons.emoji_events)),
             BottomNavigationBarItem(
             label: '게시글',
-            icon: Icon(Icons.keyboard)),
+            icon: IconButton(
+              onPressed: (){
+                Navigator.pushNamed(context, '/community');
+              }, 
+              icon: Icon(Icons.keyboard),
+              
+            )
+            ),
             BottomNavigationBarItem(
             label: '마이페이지',
             icon: Icon(Icons.person))
