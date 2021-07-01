@@ -74,6 +74,7 @@ https://yoonjaepark.github.io/2020-01-19/flutter-bottom-navigation( 하단 네�
 
 https://security-nanglam.tistory.com/484
 
+<<<<<<< HEAD
 
 https://www.youtube.com/watch?v=h00EuSl0qBw&list=PLQt_pzi-LLfoOpp3b-pnnLXgYpiFEftLB&index=9 (플러터 마이그레이션)
 
@@ -104,3 +105,6 @@ import 'package:flutter/material.dart';
         'https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1'));
         print(response.body);
   }
+=======
+https://www.youtube.com/watch?v=Y0IKGgBM8zo&list=PLgRxBCVPaZ_3jdqcrGKgbQrDwRXMHaE5B&index=2 (firebase sns 연동)
+>>>>>>> b0daf3e8690706644e29238aa07a79b419382abd
