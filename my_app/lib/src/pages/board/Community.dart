@@ -1,104 +1,294 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class Community extends StatefulWidget {
-  const Community({ Key? key }) : super(key: key);
+  const Community({Key? key}) : super(key: key);
 
   @override
   _CommunityState createState() => _CommunityState();
 }
 
+final List<String> imgList = [];
+
 class _CommunityState extends State<Community> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('커뮤니티',
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: (){
-              print('menu icon clicked');
-            }, 
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Text('커뮤니티',
+      //   ),
+      //   centerTitle: true,
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.menu),
+      //       onPressed: (){
+      //         print('menu icon clicked');
+      //       },
+      //     )
+      //   ],
+      // ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('베스트'),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 200,
-                    height: 140,
-                    child: Text('bannerCard 1'),
-                    decoration: BoxDecoration(
-                      color: Colors.teal[100],
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      // border: Border.all(color: Colors.black, width: 3),
+                  Text('베스트', style: 
+                    TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16
                     ),
                   ),
                   SizedBox(
-                    width: 20.0,
+                    height: 20.0,
                   ),
+                  Column(
+                    children: [
+                      CarouselSlider(
+                          items: [
+                            Container(
+                              width: 220,
+                              child: Text('bannerCard 1'),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[100],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            ),
+                            Container(
+                              width: 220,
+                              child: Text('bannerCard 2'),
+                              decoration: BoxDecoration(
+                                color: Colors.teal[100],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                // border: Border.all(color: Colors.black, width: 3),
+                              ),
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            height: 120,
+                            disableCenter: false,
+                            viewportFraction: 0.6,
+                            autoPlayInterval: const Duration(seconds: 4),
+                            // aspectRatio: 16 / 2,
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Text('커뮤니티', style: 
+                    TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(onPressed: () {}, child: Text('최신순')),
+                      SizedBox(width: 5,),
+                      ElevatedButton(onPressed: () {}, child: Text('댓글 많은 순')),
+                      SizedBox(width: 5,),
+                      ElevatedButton(onPressed: () {}, child: Text('좋아요 수'))
+                    ],
+                  ),
+                  //  ListView(
+                  //    children: [
                   Container(
-                    width: 170,
-                    height: 140,
-                    child: Text('bannerCard 2'),
-                    decoration: BoxDecoration(
-                      color: Colors.teal[100],
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      // border: Border.all(color: Colors.black, width: 3),
+                    //  color: Colors.redAccent,
+                    height: 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.grey[850],
+                          thickness: 0.5,
+                        ),
+                        Text('Board Title', style: 
+                          TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        // SizedBox(height: 8,),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text('Name  |  2 Hours ago '),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye_outlined),
+                                  SizedBox(width: 5,),
+                                  Text('32'),
+                                ],
+                              ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                   Container(
+                    //  color: Colors.redAccent,
+                    height: 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.grey[850],
+                          thickness: 0.5,
+                        ),
+                        Text('Board Title', style: 
+                          TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        // SizedBox(height: 8,),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text('Name  |  2 Hours ago '),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye_outlined),
+                                  SizedBox(width: 5,),
+                                  Text('32'),
+                                ],
+                              ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ), Container(
+                    //  color: Colors.redAccent,
+                    height: 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.grey[850],
+                          thickness: 0.5,
+                        ),
+                        Text('Board Title', style: 
+                          TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        // SizedBox(height: 8,),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text('Name  |  2 Hours ago '),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye_outlined),
+                                  SizedBox(width: 5,),
+                                  Text('32'),
+                                ],
+                              ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ), Container(
+                    //  color: Colors.redAccent,
+                    height: 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.grey[850],
+                          thickness: 0.5,
+                        ),
+                        Text('Board Title', style: 
+                          TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        // SizedBox(height: 8,),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text('Name  |  2 Hours ago '),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye_outlined),
+                                  SizedBox(width: 5,),
+                                  Text('32'),
+                                ],
+                              ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ), Container(
+                    //  color: Colors.redAccent,
+                    height: 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.grey[850],
+                          thickness: 0.5,
+                        ),
+                        Text('Board Title', style: 
+                          TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16
+                          ),
+                        ),
+                        SizedBox(height: 5,),
+                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        // SizedBox(height: 8,),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text('Name  |  2 Hours ago '),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.remove_red_eye_outlined),
+                                  SizedBox(width: 5,),
+                                  Text('32'),
+                                ],
+                              ),),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 30.0,
-              ),
-              Text('커뮤니티'),
-              Row(
-                children: [
-                  TextButton(
-                      onPressed: (){},
-                      child: Text('최신순')
-                  ),
-                  TextButton(
-                      onPressed: (){},
-                      child: Text('댓글 많은 순',
-                      style: TextStyle(
-                        backgroundColor: Colors.black,
-                        color: Colors.white,
-                      ),
-
-                      )
-
-                  ),
-                  TextButton(
-                      onPressed: (){},
-                      child: Text('좋아요 수')
-                  )
-                ],
-              ),
-
-              Divider(
-                height: 60.0,
-                color: Colors.grey[850],
-                thickness: 0.5,
-                // indent: 20.0,
-                // endIndent: 20.0,
-              ),
-              Text('2021년 장마기간'),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -106,7 +296,7 @@ class _CommunityState extends State<Community> {
 }
 
 class bannerCard extends StatefulWidget {
-  const bannerCard({ Key? key }) : super(key: key);
+  const bannerCard({Key? key}) : super(key: key);
 
   @override
   _bannerCardState createState() => _bannerCardState();
@@ -115,7 +305,6 @@ class bannerCard extends StatefulWidget {
 class _bannerCardState extends State<bannerCard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    );
+    return Scaffold();
   }
 }
