@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="hikariConfig_fdc" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@orcl.cmulmmxt9bbm.ap-northeast-2.rds.amazonaws.com:1521:orcl"></property> 
+			<property name="username" value="yj"></property> <property name="password" 
+			value="12345678"></property> -->
+
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@211.54.188.77:1521:xe"></property>
+		<property name="username" value="young"></property>
+		<property name="password" value="1234"></property>
+
+	</bean>
+
+	<bean id="dataSource_fdc"
+		class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig_fdc" />
+	</bean>
+
+
+	<bean id="sqlSessionFactory_fdc"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource_fdc" />
+		<property name="configLocation"
+			value="classpath:mybatis/mybatis-config.xml" />
+		<!-- <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property> -->
+
+	</bean>
+
+	<!-- 트랜젝션 관리 -->
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource_fdc" />
+	</bean>
+
+	<!-- 매퍼 , 서비스 -->
+	<mybatis-spring:scan
+		base-package="com.ys.dabang.mapper" />
+
+	<context:component-scan
+		base-package="com.ys.dabang.service" />
+
+
+	<!-- 트랜잭션 어노 테이션 사용 -->
+	<tx:annotation-driven />
+
+	<!-- quartz 스캐줄러 어노테이션 -->
+	<task:annotation-driven />
+
+	<!-- aop 프록시를 사용하기 위한 태그 -->
+	<aop:aspectj-autoproxy />
+
+
+
+
+</beans>
