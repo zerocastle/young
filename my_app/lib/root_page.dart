@@ -1,5 +1,7 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/MyHomePage.dart';
+import 'package:my_app/loading_page.dart';
 import 'package:my_app/login_app/login.dart';
 
 class RootPage extends StatelessWidget {
@@ -10,6 +12,23 @@ class RootPage extends StatelessWidget {
   }
 
   Widget _handleCurrentScreen() {
-    return LogIn();
+    final instance = FirebaseAuth.instance;
+    final user = instance.currentUser;
+
+    return StreamBuilder(
+        stream: instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          // 연결 상태 체크
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingPage();
+          }else{
+            if(snapshot.hasData){
+              print(snapshot.data);
+              return MyHomePage(title:'welcome 군다방',user : snapshot.data);
+            }else{
+              return LogIn();
+            }
+          }
+        });
   }
 }

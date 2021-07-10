@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    testData();
+    //testData();
   }
 
   void testData() async{

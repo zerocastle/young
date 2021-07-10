@@ -1,3 +1,5 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/src/pages/board/Community.dart';
 import 'package:my_app/src/pages/event/event.dart';
@@ -8,7 +10,9 @@ import 'package:my_app/src/pages/shopping/Shopping.dart';
 class MyHomePage extends StatefulWidget {
 
   final String title;
-  const MyHomePage({ Key? key , required this.title}) : super(key: key);
+  // final user = FirebaseAuth.instance.authStateChanges();
+  final User user; 
+  const MyHomePage({required this.title,required this.user});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
