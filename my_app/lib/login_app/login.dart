@@ -1,9 +1,15 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/MyHomePage.dart';
 import 'package:my_app/my_button/my_button.dart';
 
 class LogIn extends StatelessWidget {
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +41,11 @@ class LogIn extends StatelessWidget {
             color: Colors.white,
             radius: 4.0,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyHomePage(title: '군다방에 오신걸 환영합니다.',)),
-                );
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => MyHomePage(title: '군다방에 오신걸 환영합니다.',)),
+              //   );
+              _currentUser();
             },
             fontSize: 15.0,
           ),
@@ -83,4 +90,27 @@ class LogIn extends StatelessWidget {
       ),
     );
   }
+
+  Future<User?> _currentUser() async {
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication authentication =
+          await account!.authentication;
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+          idToken: authentication.idToken,
+          accessToken: authentication.accessToken);
+
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      
+      // 구글 로그인으로 인증된 정보를 기반으로 firebaseUser 객체를 구성
+      final User? user = authResult.user;
+
+      String? name = user!.displayName;
+      print("signed in $name");
+      return user;
+    }
+ 
 }
+
+ 
