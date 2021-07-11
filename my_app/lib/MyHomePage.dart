@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/src/pages/board/Community.dart';
 import 'package:my_app/src/pages/event/event.dart';
 import 'package:my_app/src/pages/home/home.dart';
@@ -19,6 +20,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late User _user;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  int _selectedIndex = 0;
+  final Color? bottomMainColor = Colors.green;
+
+  // 페이지들
+  List<Widget>? _children;
 
   @override
   void initState() {
@@ -27,17 +35,15 @@ class _MyHomePageState extends State<MyHomePage> {
     _user = widget.user;
     print('herer 생성자$_user');
     print(_user.email);
-  }
 
-  int _selectedIndex = 0;
-  final Color? bottomMainColor = Colors.green;
-  final List<Widget> _children = [
-    Home(),
-    Shopping(),
-    Event(),
-    Community(),
-    MyPage()
-  ];
+    _children = [
+      Home(user: this._user),
+      Shopping(user: this._user),
+      Event(user: this._user),
+      Community(user: this._user),
+      MyPage(user: this._user)
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.green,
           centerTitle: true,
         ),
-        body: _children[_selectedIndex],
+        body: _children![_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: bottomMainColor,
@@ -105,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             title: Text('로그아웃'),
             onTap: () {
-              print('logout is clicked');
+              FirebaseAuth.instance.signOut();
+              _googleSignIn.signOut();
             },
           )
         ],

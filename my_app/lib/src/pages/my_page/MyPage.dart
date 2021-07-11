@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/common_widget.dart';
 
 class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+
+  final User user;
+
+  const MyPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _MyPageState createState() => _MyPageState();

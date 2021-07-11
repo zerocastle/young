@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Event extends StatefulWidget {
-  const Event({ Key? key }) : super(key: key);
+  final User user;
+  const Event({Key? key, required this.user}) : super(key: key);
 
   @override
   _EventState createState() => _EventState();

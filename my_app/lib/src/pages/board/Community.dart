@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Community extends StatefulWidget {
-  const Community({Key? key}) : super(key: key);
+  final User user;
+  const Community({Key? key, required this.user}) : super(key: key);
 
   @override
   _CommunityState createState() => _CommunityState();
@@ -35,11 +37,9 @@ class _CommunityState extends State<Community> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('베스트', style: 
-                    TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16
-                    ),
+                  Text(
+                    '베스트',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
                   SizedBox(
                     height: 20.0,
@@ -81,18 +81,20 @@ class _CommunityState extends State<Community> {
                   SizedBox(
                     height: 30.0,
                   ),
-                  Text('커뮤니티', style: 
-                    TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16
-                    ),
+                  Text(
+                    '커뮤니티',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
                   Row(
                     children: [
                       ElevatedButton(onPressed: () {}, child: Text('최신순')),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       ElevatedButton(onPressed: () {}, child: Text('댓글 많은 순')),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       ElevatedButton(onPressed: () {}, child: Text('좋아요 수'))
                     ],
                   ),
@@ -108,17 +110,18 @@ class _CommunityState extends State<Community> {
                           color: Colors.grey[850],
                           thickness: 0.5,
                         ),
-                        Text('Board Title', style: 
-                          TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                          ),
+                        Text(
+                          'Board Title',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
-                        SizedBox(height: 5,),
-                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            'Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
                         // SizedBox(height: 8,),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Text('Name | Time '),
@@ -127,16 +130,19 @@ class _CommunityState extends State<Community> {
                               child: Row(
                                 children: [
                                   Icon(Icons.remove_red_eye_outlined),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text('32'),
                                 ],
-                              ),),
+                              ),
+                            ),
                           ],
                         )
                       ],
                     ),
                   ),
-                   Container(
+                  Container(
                     //  color: Colors.redAccent,
                     height: 105,
                     child: Column(
@@ -146,17 +152,18 @@ class _CommunityState extends State<Community> {
                           color: Colors.grey[850],
                           thickness: 0.5,
                         ),
-                        Text('Board Title', style: 
-                          TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                          ),
+                        Text(
+                          'Board Title',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
-                        SizedBox(height: 5,),
-                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            'Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
                         // SizedBox(height: 8,),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Text('Name | Time '),
@@ -165,15 +172,19 @@ class _CommunityState extends State<Community> {
                               child: Row(
                                 children: [
                                   Icon(Icons.remove_red_eye_outlined),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text('32'),
                                 ],
-                              ),),
+                              ),
+                            ),
                           ],
                         )
                       ],
                     ),
-                  ), Container(
+                  ),
+                  Container(
                     //  color: Colors.redAccent,
                     height: 105,
                     child: Column(
@@ -183,17 +194,18 @@ class _CommunityState extends State<Community> {
                           color: Colors.grey[850],
                           thickness: 0.5,
                         ),
-                        Text('Board Title', style: 
-                          TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                          ),
+                        Text(
+                          'Board Title',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
-                        SizedBox(height: 5,),
-                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            'Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
                         // SizedBox(height: 8,),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Text('Name | Time '),
@@ -202,15 +214,19 @@ class _CommunityState extends State<Community> {
                               child: Row(
                                 children: [
                                   Icon(Icons.remove_red_eye_outlined),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text('32'),
                                 ],
-                              ),),
+                              ),
+                            ),
                           ],
                         )
                       ],
                     ),
-                  ), Container(
+                  ),
+                  Container(
                     //  color: Colors.redAccent,
                     height: 105,
                     child: Column(
@@ -220,17 +236,18 @@ class _CommunityState extends State<Community> {
                           color: Colors.grey[850],
                           thickness: 0.5,
                         ),
-                        Text('Board Title', style: 
-                          TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                          ),
+                        Text(
+                          'Board Title',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
-                        SizedBox(height: 5,),
-                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            'Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
                         // SizedBox(height: 8,),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Text('Name | Time '),
@@ -239,15 +256,19 @@ class _CommunityState extends State<Community> {
                               child: Row(
                                 children: [
                                   Icon(Icons.remove_red_eye_outlined),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text('32'),
                                 ],
-                              ),),
+                              ),
+                            ),
                           ],
                         )
                       ],
                     ),
-                  ), Container(
+                  ),
+                  Container(
                     //  color: Colors.redAccent,
                     height: 105,
                     child: Column(
@@ -257,17 +278,18 @@ class _CommunityState extends State<Community> {
                           color: Colors.grey[850],
                           thickness: 0.5,
                         ),
-                        Text('Board Title', style: 
-                          TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                          ),
+                        Text(
+                          'Board Title',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
                         ),
-                        SizedBox(height: 5,),
-                        Text('Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            'Board Contents Board Contents Board Contents Board Contents Board Contents Board Contents'),
                         // SizedBox(height: 8,),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Text('Name | Time '),
@@ -276,10 +298,13 @@ class _CommunityState extends State<Community> {
                               child: Row(
                                 children: [
                                   Icon(Icons.remove_red_eye_outlined),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text('32'),
                                 ],
-                              ),),
+                              ),
+                            ),
                           ],
                         )
                       ],

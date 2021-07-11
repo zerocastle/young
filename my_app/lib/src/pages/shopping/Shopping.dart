@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Shopping extends StatefulWidget {
-  const Shopping({ Key? key }) : super(key: key);
+  final User user;
+  const Shopping({Key? key, required this.user}) : super(key: key);
 
   @override
   _ShoppingState createState() => _ShoppingState();

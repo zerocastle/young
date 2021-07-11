@@ -1,17 +1,19 @@
 // import 'package:my_app/src/app.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/data/network.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-  const Home({ Key? key }) : super(key: key);
+  final User user;
+
+  const Home({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -19,7 +21,7 @@ class _HomeState extends State<Home> {
     //testData();
   }
 
-  void testData() async{
+  void testData() async {
     print('fuck');
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
@@ -37,7 +39,7 @@ class _HomeState extends State<Home> {
     //   MemberClass member = new MemberClass(mId: data[0][0],mPw: data[0][1]);
     //   list.add(member);
     // }
-    
+
     // var toJson = member.toJson();
     // print(toJson);
   }
