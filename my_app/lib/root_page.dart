@@ -23,7 +23,7 @@ class RootPage extends StatelessWidget {
             return LoadingPage();
           }else{
             if(snapshot.hasData){
-              print(snapshot.data);
+              //print(snapshot.data);
               return MyHomePage(title:'welcome 군다방',user : snapshot.data);
             }else{
               return LogIn();

@@ -16,9 +16,6 @@ class MyButton extends StatelessWidget {
       required this.radius,
       required this.onPressed,
       required this.fontSize});
-
-  
-
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
