@@ -23,6 +23,6 @@ class CommonWidget extends StatelessWidget {
   //  디바이더도 나중에 값 받아서 할지는 봅세
   Widget getDivider() {
     return Divider(
-        height: 60.0, color: Colors.grey[850], thickness: 0.5, endIndent: 30.0);
+        height: 40.0, color: Colors.grey[850], thickness: 0.5, endIndent: 30.0);
   }
 }
