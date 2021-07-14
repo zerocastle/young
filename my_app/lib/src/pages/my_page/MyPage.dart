@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/common/common_widget.dart';
 
 class MyPage extends StatefulWidget {
 
   final User user;
-
+  
   const MyPage({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -16,7 +17,7 @@ class _MyPageState extends State<MyPage> {
   // 공통 위젯 쓸려고 놔둠
   CommonWidget commonWidget = CommonWidget();
   // late User _user;
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -26,6 +27,8 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.fromLTRB(30.0, 40.0, 0.0, 0.0),
@@ -126,6 +129,8 @@ class _MyPageState extends State<MyPage> {
         ListTile(
           title: Text('로그아웃'),
           onTap: () {
+            FirebaseAuth.instance.signOut();
+            _googleSignIn.signOut();
             print('logout is clicked');
           },
           trailing : Icon(Icons.arrow_right)

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/data/network.dart';
 import 'package:http/http.dart' as http;
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class Home extends StatefulWidget {
   final User user;
@@ -46,9 +47,30 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Container(
-        child: Text('홈이라네'),
+      body: Column(
+        children: <Widget>[
+          Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                width: 300,
+                height: 20,
+                child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: LinearProgressIndicator(
+                  value: 0.1,
+                  backgroundColor: Colors.grey,
+                    ),
+                  )
+                ),
+              
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
