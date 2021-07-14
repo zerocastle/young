@@ -15,6 +15,14 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   // 공통 위젯 쓸려고 놔둠
   CommonWidget commonWidget = CommonWidget();
+  // late User _user;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +33,18 @@ class _MyPageState extends State<MyPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/fire.png'),
-              radius: 60.0,
+            child: Column(
+              children:<Widget>[
+                CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.photoURL!),
+                radius: 60.0,
+              ),
+              SizedBox(
+                height:10.0 ,
+              ),
+              Text(widget.user.email!),
+              Text(widget.user.displayName!)
+              ] 
             ),
           ),
           commonWidget.getDivider(),

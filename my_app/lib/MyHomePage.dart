@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getDrawer() {
     var nickName = _user.displayName;
     var email = _user.email;
+    var photoURL = _user.photoURL;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -91,11 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Center(
             child: UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/fire.png'),
+                backgroundImage: NetworkImage(photoURL!),
                 backgroundColor: Colors.white,
               ),
-              accountEmail: Text('123'),
-              accountName: Text('oo'),
+              accountEmail: Text(email!),
+              accountName: Text(nickName!),
               onDetailsPressed: () {
                 print('arrow is clicked');
               },
