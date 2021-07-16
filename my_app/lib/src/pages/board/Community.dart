@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:my_app/data/network.dart';
+import 'package:my_app/model/BoardVO.dart';
 
 class Community extends StatefulWidget {
   final User user;
@@ -13,25 +16,23 @@ class Community extends StatefulWidget {
 final List<String> imgList = [];
 
 class _CommunityState extends State<Community> {
+
+  late Future<dynamic> _boards;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState(); 
+     _boards = boardOrder('/board/getList');
+     print(_boards);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('커뮤니티',
-      //   ),
-      //   centerTitle: true,
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.menu),
-      //       onPressed: (){
-      //         print('menu icon clicked');
-      //       },
-      //     )
-      //   ],
-      // ),
       body: SafeArea(
         child: ListView(
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
@@ -313,12 +314,39 @@ class _CommunityState extends State<Community> {
                 ],
               ),
             ),
+            getDataList(_boards)
           ],
         ),
       ),
     );
   }
 }
+
+FutureBuilder getDataList(Future<dynamic> _boards){
+  return FutureBuilder(
+    future: _boards,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return Text(snapshot.data.toString());
+      // return ListView.builder(
+      //   it,
+      //   itemBuilder: itemBuilder
+      //   )
+    },
+    );
+} 
+
+Future<dynamic> boardOrder(String order) async {
+ 
+    // String url = "http://localhost:3000/login";
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
+    Network network = await Network(url);
+    var data = await network.getJsonData();
+    Iterable l =data;
+    // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
+    List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
+    return listItem;
+  }
 
 class bannerCard extends StatefulWidget {
   const bannerCard({Key? key}) : super(key: key);

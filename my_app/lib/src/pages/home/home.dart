@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   }
 
   void testData() async {
-    print('fuck');
+
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
     String url = "http://192.168.15.4:8181/member/getList";
@@ -32,17 +32,6 @@ class _HomeState extends State<Home> {
     print(data);
     print(data[0]['email']);
 
-    // List<MemberClass> list = [];
-    // var size = data.length;
-    // var testData = data[0][0];
-    // print('size$size data$testData');
-    // for(var i = 0; i < size; i++){
-    //   MemberClass member = new MemberClass(mId: data[0][0],mPw: data[0][1]);
-    //   list.add(member);
-    // }
-
-    // var toJson = member.toJson();
-    // print(toJson);
   }
 
   @override
@@ -50,24 +39,26 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Center(
-            child: Column(
-              children: <Widget>[
-                Container(
-                margin: EdgeInsets.symmetric(vertical: 5),
-                width: 300,
-                height: 20,
-                child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: LinearProgressIndicator(
-                  value: 0.1,
-                  backgroundColor: Colors.grey,
-                    ),
-                  )
-                ),
-              
-              ],
+          Container(
+            // Text('')
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      width: 300,
+                      height: 20,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: LinearProgressIndicator(
+                          value: 0.1,
+                          backgroundColor: Colors.grey,
+                        ),
+                      )),
+                ],
+              ),
             ),
           )
         ],

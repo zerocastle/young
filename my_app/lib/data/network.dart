@@ -10,7 +10,7 @@ class Network {
     // print(response.body);
     if (response.statusCode == 200) {
       String jsonData = response.body;
-      print('jsonData $jsonData');
+      //print('jsonData $jsonData');
       var parsingData = jsonDecode(jsonData);
 
       return parsingData;
