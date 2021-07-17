@@ -342,10 +342,10 @@ Future<dynamic> boardOrder(String order) async {
     String url = "http://192.168.15.4:8181" + order;
     Network network = await Network(url);
     var data = await network.getJsonData();
-    Iterable l =data;
+    // Iterable l =data;
     // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
-    List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
-    return listItem;
+    // List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
+    return data;
   }
 
 class bannerCard extends StatefulWidget {
