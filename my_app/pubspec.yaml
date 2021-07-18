@@ -50,6 +50,8 @@ dependencies:
   flutter_signin_button: ^0.2.8
   #google_fonts: ^0.1.0
   charts_flutter: ^0.11.0
+  # DateTimeFormat
+  intl: ^0.17.0
 
 dev_dependencies:
   
