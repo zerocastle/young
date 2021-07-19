@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ys.dabang.mapper.BoardMapper">
+
+	<select id="getList" resultType="BoardVo">
+		SELECT 
+		  bcd 
+		, btitle 
+		, bcont 
+		, TO_CHAR(bdate,'yyyy-MM-dd') bdate 
+		, blike 
+		, bvisit 
+		, mid
+		FROM BOARD
+	</select>
+
+	<select id="bestList" resultType="BoardVo">
+		SELECT 
+		  bcd 
+		, btitle 
+		, bcont 
+		, TO_CHAR(bdate,'yyyy-MM-dd') bdate 
+		, blike 
+		, bvisit 
+		, mid
+		FROM BOARD
+		WHERE 1= 1
+		<![CDATA[
+		AND bdate >= TO_DATE(ADD_MONTHS(SYSDATE,-1),'yyyy-mm-dd')
+		AND ROWNUM < 6
+		]]>
+		ORDER BY blike , bvisit DESC
+	</select>
+
+</mapper>
