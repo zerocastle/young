@@ -33,8 +33,6 @@ class _CommunityState extends State<Community> {
     print(_bestBoards.toString());
   }
 
-  // Future<ProcessedData> createData() a
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +51,6 @@ class _CommunityState extends State<Community> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  // Expanded(child : getRankComponent(_bestBoards)),
                   getRankComponent(_bestBoards),
                   SizedBox(
                     height: 30.0,
@@ -78,7 +75,6 @@ class _CommunityState extends State<Community> {
                 ],
               ),
             ),
-            // Expanded(child : getRankComponent(_bestBoards)),
             Expanded(child: getDataList(_boards))
           ],
         ),
@@ -124,6 +120,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                 leading: image,
                 onTap: () {},
                 title: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -132,7 +129,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 7,
                     ),
                     RichText(
                       overflow: TextOverflow.ellipsis,
@@ -142,35 +139,17 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                           text: root['bcont']),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 18,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // Text('Name | Time '),
-                        Text(name + ' | $date'),
-                        Container(
-                          child: Row(
-                            children: [
-                              Icon(Icons.remove_red_eye_outlined),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text('2'),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                Icons.favorite,
-                                color: Colors.pink,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text('32'),
-                            ],
-                          ),
+                        Text(
+                          name + ' | $date',
+                          style: TextStyle(fontSize: 12.0),
                         ),
+                        _getIcon(root)
                       ],
                     )
                   ],
@@ -183,8 +162,13 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
   );
 }
 
+/************************************************************************* start 베스트 컴포넌트********************************************************************************** */
+
 // 랭크 보더스
 FutureBuilder getRankComponent(Future<dynamic> _bestBoards) {
+  late Color _selectHoverColor;
+  // late List _item = ;
+
   return FutureBuilder(
     future: _bestBoards,
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -201,26 +185,10 @@ FutureBuilder getRankComponent(Future<dynamic> _bestBoards) {
 
       return Column(
         children: [
-          CarouselSlider(
-              items: [
-                Container(
-                  width: 220,
-                  child: Text('bannerCard 1'),
-                  decoration: BoxDecoration(
-                    color: Colors.teal[100],
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-                Container(
-                  width: 220,
-                  child: Text('bannerCard 2'),
-                  decoration: BoxDecoration(
-                    color: Colors.teal[100],
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    // border: Border.all(color: Colors.black, width: 3),
-                  ),
-                ),
-              ],
+          CarouselSlider.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, int itemIndex, int pageViewIndex) =>
+                  _getBestCmponent(snapshot.data[itemIndex]),
               options: CarouselOptions(
                 autoPlay: true,
                 height: 120,
@@ -228,13 +196,146 @@ FutureBuilder getRankComponent(Future<dynamic> _bestBoards) {
                 viewportFraction: 0.6,
                 autoPlayInterval: const Duration(seconds: 4),
                 // aspectRatio: 16 / 2,
-              ))
+              )),
         ],
       );
     },
   );
 }
 
+// 베스트 글 컴포넌트
+Widget _getBestCmponent(dynamic _bestBoards) {
+  // 타이틀
+  String title = _bestBoards['btitle'].toString();
+  // 컨텐츠
+  String content = _bestBoards['bcont'].toString();
+  // 이미지 (파일 이미지 나중에 추가)
+  CircleAvatar image =
+      CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
+  // 이름
+  String name = _bestBoards['mid'].toString();
+  // 글 올린 날짜
+  String date = _bestBoards['bdate'].toString();
+
+  return InkWell(
+    // splashColor: Colors.lightGreenAccent,
+    onTap: () {
+      print('hoho');
+    },
+    child: SafeArea(
+      child: Container(
+        margin: EdgeInsets.all(2.0),
+        padding: EdgeInsets.all(10.0),
+        width: 220,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(title,
+                    style:
+                        TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+                _getIcon(_bestBoards)
+              ],
+            ),
+            SizedBox(
+              height: 7.0,
+            ),
+            RichText(
+              overflow: TextOverflow.ellipsis,
+              strutStyle: StrutStyle(fontSize: 12.0),
+              text: TextSpan(
+                  style: TextStyle(color: Colors.black),
+                  text: content),
+            ),
+            SizedBox(
+              height: 7.0,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  image,
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Text(
+                          '$name 님',
+                          style: TextStyle(
+                              fontSize: 12.0, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(date)
+                      ]))
+                ],
+              ),
+            )
+          ],
+        ),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 4,
+                offset: Offset(0, 3),
+              )
+            ]),
+      ),
+    ),
+  );
+}
+
+// 아이콘들 컨테이터
+Widget _getIcon(dynamic data) {
+
+  // 방문자 수
+  String visite = data['bvisit'].toString();
+  // 좋아요 수
+  String blike = data['blike'].toString();
+
+  return Container(
+    child: Row(
+      children: [
+        Icon(
+          Icons.remove_red_eye_outlined,
+          size: 12.0,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(visite),
+        SizedBox(
+          width: 5,
+        ),
+        Icon(
+          Icons.favorite,
+          color: Colors.pink,
+          size: 12.0,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(blike),
+      ],
+    ),
+  );
+}
+
+/************************************************************************* end 베스트 컴포넌트********************************************************************************** */
+
+// 오더
 Future<dynamic> boardOrder(String order) async {
   // String url = "http://localhost:3000/login";
   // String url = "http://192.168.15.4:3000/login";
