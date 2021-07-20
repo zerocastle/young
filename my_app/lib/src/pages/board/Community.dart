@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/data/network.dart';
 import 'package:my_app/model/BoardVO.dart';
+import 'package:my_app/src/pages/board/BoardInfo.dart';
 
 class Community extends StatefulWidget {
   final User user;
@@ -31,11 +32,13 @@ class _CommunityState extends State<Community> {
     _bestBoards = boardOrder('/board/bestList');
 
     print(_bestBoards.toString());
+  
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.brown[100],
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -118,13 +121,15 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
             return Card(
               child: ListTile(
                 leading: image,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => BoardInfo(param:root)));
+                },
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      root['btitle'].toString(),
+                      title,
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                     ),
@@ -136,7 +141,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                       strutStyle: StrutStyle(fontSize: 12.0),
                       text: TextSpan(
                           style: TextStyle(color: Colors.black),
-                          text: root['bcont']),
+                          text: content),
                     ),
                     SizedBox(
                       height: 18,

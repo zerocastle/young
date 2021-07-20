@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(this.widget.title),
-          backgroundColor: Colors.green,
+          // backgroundColor: Colors.green,
           centerTitle: true,
         ),
         body: _children![_selectedIndex],

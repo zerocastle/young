@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      // backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: ListView(
           children: <Widget>[

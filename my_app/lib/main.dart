@@ -11,7 +11,7 @@ void main() async{
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var green = Colors.blue;
+    var green = Colors.green;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'gunDabang',
