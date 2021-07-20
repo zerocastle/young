@@ -33,5 +33,35 @@
 		]]>
 		ORDER BY blike , bvisit DESC
 	</select>
+	
+	<!-- 상세정보 -->
+	<select id="boardInfo" parameterType="hashMap" resultType="BoardVo">
+       		SELECT a.* ,b.*
+       FROM BOARD a , (SELECT *
+                       FROM MEMBERCLASS
+                       WHERE 1 = 1
+                       AND classcd = (SELECT NVL(classcd,1) FROM MEMBER
+                                       WHERE 1 = 1
+                                       AND mid = #{mid}
+                                       ) 
+                       )b
+       WHERE 1 = 1
+       AND a.bcd = #{bcd}
+	</select>
+	
+	<!-- 댓글 상세정보 -->
+	<select id="repleInfo" parameterType="hashMap" resultType="BoardVo">
+         		SELECT a.* ,b.*
+         FROM COMMENTS a , (SELECT *
+                         FROM MEMBERCLASS
+                         WHERE 1= 1
+                         AND classcd = (SELECT NVL(classcd,1) FROM MEMBER
+                                         WHERE 1= 1
+                                         AND mid = #{mid}
+                                         ) 
+                         )b
+         WHERE 1= 1
+         AND a.bcd = #{bcd}
+	</select>
 
 </mapper>
