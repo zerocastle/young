@@ -6,20 +6,41 @@
 	
 	<!-- 게시물 불러오기 -->
 	<select id="getList" resultType="hashMap">
-		SELECT 
-		  A.bcd 
-		, NVL(A.btitle,'제목 없음') btitle 
-		, NVL(A.bcont, '내용 없음') bcont 
-		, TO_CHAR(A.bdate,'yyyy-MM-dd') bdate 
-		, NVL(A.blike,0) blike 
-		, NVL(A.bvisit,0) bvisit 
-		, A.mid
-        , COUNT(b.bcd) rec
-		FROM BOARD A , COMMENTS B
-        WHERE 1 = 1
-        AND A.bcd = B.bcd(+)
-        GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
-        ORDER BY bcd 
+	    <![CDATA[
+	   SELECT 
+	 	   A.bcd 
+	 	 , NVL(A.btitle,'제목 없음') btitle 
+	 	 , NVL(A.bcont, '내용 없음') bcont 
+	 	 , TO_CHAR(A.bdate,'yyyy-MM-dd') bdate 
+	 	 , NVL(A.blike,0) blike 
+	 	 , NVL(A.bvisit,0) bvisit 
+	 	 , A.mid
+          , case 
+              when 1.00 > ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'))* 24 * 60, 2) 
+              then ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
+              - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24 * 60 * 60, 2) || ' 초전'
+              
+              when 1.00 >  ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24, 2) 
+              then ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
+              - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24 * 60) || ' 분전'
+              
+              when 1.00 >  ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) , 2) 
+              then ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
+              - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24) || '  시간전'
+              
+              ELSE
+                  ROUND(TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
+             - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) || ' 일전'
+             
+              end as mt
+          
+          , COUNT(b.bcd) rec
+	 	 FROM BOARD A , COMMENTS B
+          WHERE 1 = 1
+          AND A.bcd = B.bcd(+)
+          GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
+          ORDER BY A.bdate desc , a.bcd asc
+            ]]>
 	</select>
 
 	<!-- 베스트 글 -->

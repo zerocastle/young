@@ -39,7 +39,6 @@ class _BoardInfoState extends State<BoardInfo> {
           child: Column(
             children: <Widget>[
               _getInfoComp(_boarderInfo),
-              _common.getDivider(),
             ],
           ),
         ),
@@ -48,6 +47,8 @@ class _BoardInfoState extends State<BoardInfo> {
   }
 }
 
+
+/* *************************************** start 글 상세 페이지 ***************************************** */
 // 글 상세 페이지 컴포넌트 (단건);
 FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
   return FutureBuilder(
@@ -168,6 +169,9 @@ FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
         );
       });
 }
+
+/* *************************************** end 글 상세 페이지 ***************************************** */
+
 
 // 아이콘들 컨테이터
 Widget _getIcon(dynamic data) {

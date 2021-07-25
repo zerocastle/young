@@ -32,7 +32,6 @@ class _CommunityState extends State<Community> {
     _bestBoards = boardOrder('/board/bestList');
 
     print(_bestBoards.toString());
-  
   }
 
   @override
@@ -88,7 +87,6 @@ class _CommunityState extends State<Community> {
 
 /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
-
 // 게시글 뿌려주는곳
 FutureBuilder getDataList(Future<dynamic> _boards) {
   return FutureBuilder(
@@ -120,12 +118,17 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
             String name = root['MID'].toString();
             // 글 올린 날짜
             String date = root['BDATE'].toString();
+            // 피드 시간 
+            String rec = root['MT'].toString();
 
             return Card(
               child: ListTile(
                 leading: image,
                 onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => BoardInfo(param:root)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BoardInfo(param: root)));
                 },
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,8 +146,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
                       text: TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          text: content),
+                          style: TextStyle(color: Colors.black), text: content),
                     ),
                     SizedBox(
                       height: 18,
@@ -154,7 +156,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
                       children: [
                         // Text('Name | Time '),
                         Text(
-                          name + ' | $date',
+                          name + ' | $rec',
                           style: TextStyle(fontSize: 12.0),
                         ),
                         _getIcon(root)
@@ -171,8 +173,6 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
 }
 
 /************************************************************************* end 게시글 컴포넌트********************************************************************************** */
-
-
 
 /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
@@ -259,8 +259,7 @@ Widget _getBestCmponent(dynamic _bestBoards) {
               overflow: TextOverflow.ellipsis,
               strutStyle: StrutStyle(fontSize: 12.0),
               text: TextSpan(
-                  style: TextStyle(color: Colors.black),
-                  text: content),
+                  style: TextStyle(color: Colors.black), text: content),
             ),
             SizedBox(
               height: 7.0,
@@ -311,7 +310,6 @@ Widget _getBestCmponent(dynamic _bestBoards) {
 
 // 아이콘들 컨테이터
 Widget _getIcon(dynamic data) {
-
   // 방문자 수
   String visite = data['BVISIT'].toString();
   // 좋아요 수
@@ -342,6 +340,17 @@ Widget _getIcon(dynamic data) {
           width: 5,
         ),
         Text(blike),
+        SizedBox(
+          width: 5,
+        ),
+        Icon(
+          Icons.message,
+          size: 12.0,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(comments)
       ],
     ),
   );
@@ -354,7 +363,7 @@ Future<dynamic> boardOrder(String order) async {
   // String url = "http://localhost:3000/login";
   // String url = "http://192.168.15.4:3000/login";
   String url = "http://192.168.15.4:8181" + order;
-  Network network =  Network(url);
+  Network network = Network(url);
   var data = await network.getJsonData();
   // Iterable l =data;
   // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
