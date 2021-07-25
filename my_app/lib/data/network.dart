@@ -24,8 +24,8 @@ class Network {
    Future<dynamic> executePost(dynamic data) async{
     final response = await http.post(Uri.parse(url),
     body: jsonEncode({
-      'mid' : data['mid'].toString(),
-      'bcd' : data['bcd'].toString()
+      'mid' : data['MID'].toString(),
+      'bcd' : data['BCD'].toString()
     }),
     headers: {'Content-Type' : "application/json"},
     );

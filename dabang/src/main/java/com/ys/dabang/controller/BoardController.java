@@ -26,32 +26,46 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
+	// 게시글 뿌리기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
-	public List<BoardVo> getList() throws Exception {
+	public List<Map<String, Object>> getList() throws Exception {
 		return service.getList();
 
 	}
 
+	// 베스트 글 보기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/bestList")
-	public List<BoardVo> bestList() throws Exception {
+	public List<Map<String,Object>> bestList() throws Exception {
 		return service.bestList();
 
 	}
-
+	
+	// 게시글 상세 정보 보기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/boardInfo")
-	public List<BoardVo> boardInfo(@RequestBody Map param) throws Exception {
+	public List<Map<String, Object>> boardInfo(@RequestBody Map param) throws Exception {
 		System.out.println("넘어온 데이터 : " + param);
-		return service.boardInfo(param);
-	}
 
+		List<Map<String, Object>> resultData = service.boardInfo(param);
+
+		System.out.println("결과 데이터 = >" + resultData);
+
+		return resultData;
+	}
+	
+	// 댓글 보기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInfo")
-	public List<BoardVo> repleInfo(@RequestBody Map param) throws Exception {
+	public List<Map<String, Object>> repleInfo(@RequestBody Map param) throws Exception {
 		System.out.println("넘어온 데이터 : " + param);
-		return service.repleInfo(param);
+
+		List<Map<String, Object>> resultData = service.repleInfo(param);
+
+		System.out.println("결과 데이터 = >" + resultData);
+
+		return resultData;
 	}
 
 }

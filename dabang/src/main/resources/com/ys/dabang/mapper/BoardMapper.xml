@@ -3,39 +3,57 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ys.dabang.mapper.BoardMapper">
-
-	<select id="getList" resultType="BoardVo">
+	
+	<!-- 게시물 불러오기 -->
+	<select id="getList" resultType="hashMap">
 		SELECT 
-		  bcd 
-		, btitle 
-		, bcont 
-		, TO_CHAR(bdate,'yyyy-MM-dd') bdate 
-		, blike 
-		, bvisit 
-		, mid
-		FROM BOARD
+		  A.bcd 
+		, NVL(A.btitle,'제목 없음') btitle 
+		, NVL(A.bcont, '내용 없음') bcont 
+		, TO_CHAR(A.bdate,'yyyy-MM-dd') bdate 
+		, NVL(A.blike,0) blike 
+		, NVL(A.bvisit,0) bvisit 
+		, A.mid
+        , COUNT(b.bcd) rec
+		FROM BOARD A , COMMENTS B
+        WHERE 1 = 1
+        AND A.bcd = B.bcd(+)
+        GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
+        ORDER BY bcd 
 	</select>
 
-	<select id="bestList" resultType="BoardVo">
-		SELECT 
-		  bcd 
-		, btitle 
-		, bcont 
-		, TO_CHAR(bdate,'yyyy-MM-dd') bdate 
-		, blike 
-		, bvisit 
-		, mid
-		FROM BOARD
-		WHERE 1= 1
-		<![CDATA[
-		AND bdate >= TO_DATE(ADD_MONTHS(SYSDATE,-1),'yyyy-mm-dd')
-		AND ROWNUM < 6
-		]]>
-		ORDER BY blike , bvisit DESC
+	<!-- 베스트 글 -->
+	<select id="bestList" resultType="hashMap">
+	     	SELECT 
+         ROWNUM
+         , x.*
+         FROM (
+         SELECT 
+	     	  A.bcd 
+	     	, NVL(A.btitle,'제목 없음') btitle 
+	     	, NVL(A.bcont, '내용 없음') bcont 
+	     	, TO_CHAR(A.bdate,'yyyy-MM-dd') bdate 
+	     	, NVL(A.blike,0) blike 
+	     	, NVL(A.bvisit,0) bvisit 
+	     	, A.mid
+             , count(B.bcd) rec
+	     	FROM BOARD A , COMMENTS B
+	     	WHERE 1 = 1
+             AND A.bcd = B.bcd(+)
+             <![CDATA[
+	     	AND A.bdate >= TO_DATE(ADD_MONTHS(SYSDATE,-1),'yyyy-mm-dd')
+	     	]]>
+             GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
+             ORDER BY blike DESC, bvisit DESC
+         ) x
+         WHERE 1 = 1
+         <![CDATA[
+         AND ROWNUM < 6
+         ]]>
 	</select>
 	
 	<!-- 상세정보 -->
-	<select id="boardInfo" parameterType="hashMap" resultType="BoardVo">
+	<select id="boardInfo" parameterType="hashMap" resultType="hashMap">
        		SELECT a.* ,b.*
        FROM BOARD a , (SELECT *
                        FROM MEMBERCLASS
@@ -50,7 +68,7 @@
 	</select>
 	
 	<!-- 댓글 상세정보 -->
-	<select id="repleInfo" parameterType="hashMap" resultType="BoardVo">
+	<select id="repleInfo" parameterType="hashMap" resultType="hashMap">
          		SELECT a.* ,b.*
          FROM COMMENTS a , (SELECT *
                          FROM MEMBERCLASS

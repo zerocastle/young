@@ -22,8 +22,8 @@ class _EventState extends State<Event> {
     // TODO: implement initState
     super.initState();
 
-    _boards = boardOrder('/board/getList');
-    _bestBoards = boardOrder('/board/bestList');
+    // _boards = boardOrder('/board/getList');
+    // _bestBoards = boardOrder('/board/bestList');
   }
 
 

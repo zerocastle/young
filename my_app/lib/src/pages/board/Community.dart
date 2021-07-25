@@ -86,6 +86,9 @@ class _CommunityState extends State<Community> {
   }
 }
 
+/************************************************************************* start 베스트 컴포넌트********************************************************************************** */
+
+
 // 게시글 뿌려주는곳
 FutureBuilder getDataList(Future<dynamic> _boards) {
   return FutureBuilder(
@@ -107,16 +110,16 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
             // num number = index + 1;
             dynamic root = snapshot.data[index];
             // 타이틀
-            String title = root['btitle'].toString();
+            String title = root['BTITLE'].toString();
             // 컨텐츠
-            String content = root['bcont'].toString();
+            String content = root['BCONT'].toString();
             // 이미지 (파일 이미지 나중에 추가)
             CircleAvatar image =
                 CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
             // 이름
-            String name = root['mid'].toString();
+            String name = root['MID'].toString();
             // 글 올린 날짜
-            String date = root['bdate'].toString();
+            String date = root['BDATE'].toString();
 
             return Card(
               child: ListTile(
@@ -167,6 +170,10 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
   );
 }
 
+/************************************************************************* end 게시글 컴포넌트********************************************************************************** */
+
+
+
 /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
 // 랭크 보더스
@@ -211,16 +218,16 @@ FutureBuilder getRankComponent(Future<dynamic> _bestBoards) {
 // 베스트 글 컴포넌트
 Widget _getBestCmponent(dynamic _bestBoards) {
   // 타이틀
-  String title = _bestBoards['btitle'].toString();
+  String title = _bestBoards['BTITLE'].toString();
   // 컨텐츠
-  String content = _bestBoards['bcont'].toString();
+  String content = _bestBoards['BCONT'].toString();
   // 이미지 (파일 이미지 나중에 추가)
   CircleAvatar image =
       CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
   // 이름
-  String name = _bestBoards['mid'].toString();
+  String name = _bestBoards['MID'].toString();
   // 글 올린 날짜
-  String date = _bestBoards['bdate'].toString();
+  String date = _bestBoards['BDATE'].toString();
 
   return InkWell(
     // splashColor: Colors.lightGreenAccent,
@@ -306,9 +313,11 @@ Widget _getBestCmponent(dynamic _bestBoards) {
 Widget _getIcon(dynamic data) {
 
   // 방문자 수
-  String visite = data['bvisit'].toString();
+  String visite = data['BVISIT'].toString();
   // 좋아요 수
-  String blike = data['blike'].toString();
+  String blike = data['BLIKE'].toString();
+  // 댓글 수
+  String comments = data['REC'].toString();
 
   return Container(
     child: Row(
