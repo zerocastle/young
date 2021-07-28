@@ -8,17 +8,16 @@ import 'package:my_app/src/pages/my_page/MyPage.dart';
 import 'package:my_app/src/pages/shopping/Shopping.dart';
 
 class MyHomePage extends StatefulWidget {
-  final String title;
   // final user = FirebaseAuth.instance.authStateChanges();
   final User user;
-  const MyHomePage({Key? key, required this.title, required this.user})
+  const MyHomePage({Key? key, required this.user})
       : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
+
   late User _user;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -33,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     _user = widget.user;
-    print('herer 생성자$_user');
+    print('here 생성자$_user');
     print(_user.email);
 
     _children = [
@@ -43,16 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
       Community(user: this._user),
       MyPage(user: this._user)
     ];
+
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-        appBar: AppBar(
-          title: Text(this.widget.title),
-          // backgroundColor: Colors.green,
-          centerTitle: true,
-        ),
         body: _children![_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -78,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         drawer: _getDrawer());
+  }
+
+  Widget cateBtn(cate) {
+    return SizedBox(
+          child:  ElevatedButton(
+            onPressed: () {},
+            child: Text(cate, style: TextStyle(fontSize: 12),),
+          ),
+        );
   }
 
   // 드로워 위젯 붙이기

@@ -26,7 +26,7 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-	// °Ô½Ã±Û »Ñ¸®±â
+	// ï¿½Ô½Ã±ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
 	public List<Map<String, Object>> getList() throws Exception {
@@ -34,7 +34,7 @@ public class BoardController {
 
 	}
 
-	// º£½ºÆ® ±Û º¸±â
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/bestList")
 	public List<Map<String,Object>> bestList() throws Exception {
@@ -42,28 +42,28 @@ public class BoardController {
 
 	}
 	
-	// °Ô½Ã±Û »ó¼¼ Á¤º¸ º¸±â
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/boardInfo")
 	public List<Map<String, Object>> boardInfo(@RequestBody Map param) throws Exception {
-		System.out.println("³Ñ¾î¿Â µ¥ÀÌÅÍ : " + param);
+		System.out.println("ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + param);
 
 		List<Map<String, Object>> resultData = service.boardInfo(param);
 
-		System.out.println("°á°ú µ¥ÀÌÅÍ = >" + resultData);
+		System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ = >" + resultData);
 
 		return resultData;
 	}
 	
-	// ´ñ±Û º¸±â
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInfo")
 	public List<Map<String, Object>> repleInfo(@RequestBody Map param) throws Exception {
-		System.out.println("³Ñ¾î¿Â µ¥ÀÌÅÍ : " + param);
+		System.out.println("ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + param);
 
 		List<Map<String, Object>> resultData = service.repleInfo(param);
 
-		System.out.println("°á°ú µ¥ÀÌÅÍ = >" + resultData);
+		System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ = >" + resultData);
 
 		return resultData;
 	}
