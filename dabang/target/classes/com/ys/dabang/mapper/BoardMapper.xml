@@ -28,6 +28,10 @@
               then ROUND((TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
               - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24) || '  시간전'
               
+              when 10 < ROUND(TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
+             - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'))
+             then to_char(A.bdate,'YYYY-MM-DD')
+              
               ELSE
                   ROUND(TO_DATE(TO_CHAR(sysdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') 
              - TO_DATE(TO_CHAR(A.bdate,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) || ' 일전'

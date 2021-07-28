@@ -39,46 +39,48 @@ class _CommunityState extends State<Community> {
     return Scaffold(
       // backgroundColor: Colors.brown[100],
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '베스트',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  getRankComponent(_bestBoards),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Text(
-                    '커뮤니티',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(onPressed: () {}, child: Text('최신순')),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(onPressed: () {}, child: Text('댓글 많은 순')),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(onPressed: () {}, child: Text('좋아요 수'))
-                    ],
-                  ),
-                ],
+        child: SingleChildScrollView(
+                  child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '베스트',
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    getRankComponent(_bestBoards),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Text(
+                      '커뮤니티',
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(onPressed: () {}, child: Text('최신순')),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton(onPressed: () {}, child: Text('댓글 많은 순')),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton(onPressed: () {}, child: Text('좋아요 수'))
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(child: getDataList(_boards))
-          ],
+              getDataList(_boards)
+            ],
+          ),
         ),
       ),
     );
@@ -102,6 +104,8 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
           ],
         ));
       return ListView.builder(
+          primary: false,
+          shrinkWrap: true,
           padding: const EdgeInsets.all(8),
           itemCount: snapshot.data.length,
           itemBuilder: (context, index) {

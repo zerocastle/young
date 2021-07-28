@@ -29,16 +29,25 @@ class _BoardInfoState extends State<BoardInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('글 작성 페이지'),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            children: <Widget>[
-              _getInfoComp(_boarderInfo),
+          padding: const EdgeInsets.all(0.0),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                title: Text('글 작성 페이지'),
+                floating: true,
+                // flexibleSpace: Placeholder(),
+                expandedHeight: 50,
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: <Widget>[
+                    _getInfoComp(_boarderInfo),
+                  ],
+                ),
+              ),
+              _getRepleComp(_repleInfo)
             ],
           ),
         ),
@@ -46,7 +55,6 @@ class _BoardInfoState extends State<BoardInfo> {
     );
   }
 }
-
 
 /* *************************************** start 글 상세 페이지 ***************************************** */
 // 글 상세 페이지 컴포넌트 (단건);
@@ -93,9 +101,11 @@ FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
                             fontWeight: FontWeight.w700, fontSize: 24)),
                     InkWell(
                       child: Container(
-                        child: Icon(
-                          Icons.share,
-                          size: 24,
+                        child: Chip(
+                          label: Icon(
+                            Icons.share,
+                            size: 24,
+                          ),
                         ),
                       ),
                       onTap: () {
@@ -172,6 +182,62 @@ FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
 
 /* *************************************** end 글 상세 페이지 ***************************************** */
 
+/* *************************************** start 댓글 리스트 ***************************************** */
+FutureBuilder _getRepleComp(Future<dynamic> _repleInfo) {
+  return FutureBuilder(
+    future: _repleInfo,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      print(snapshot.data.toString());
+      if (!snapshot.hasData)
+        return SliverFillRemaining(
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+            ],
+          )),
+        );
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Container(
+              margin: EdgeInsets.only(top: 7.0),
+              padding: EdgeInsets.all(5.0),
+              child: Column(children: <Widget>[
+                ListTile(
+                  leading: Text(snapshot.data[index].toString()),
+                ),
+              ]),
+              decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 4,
+                  offset: Offset(0, 3),
+                )
+              ]),
+            );
+          },
+          childCount: snapshot.data.length,
+        ),
+      );
+    },
+  );
+}
+
+/* *************************************** end 댓글 리스트 ***************************************** */
+
+/* 댓글 입력창 위젯 */
+
+// Widget _writeReple(){
+
+//   return null;
+
+// }
 
 // 아이콘들 컨테이터
 Widget _getIcon(dynamic data) {
