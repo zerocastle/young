@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_app/data/network.dart';
 import 'package:provider/provider.dart';
+// import 'package:carousel_pro/carousel_pro.dart';
 class Event extends StatefulWidget {
   final User user;
   const Event({Key? key, required this.user}) : super(key: key);
@@ -16,7 +18,7 @@ class _EventState extends State<Event> {
   // 펜션
   // 게시글
   late Future<dynamic> _vipboards;
-
+  
 
   final ScrollController _scrollController = ScrollController();
   @override
@@ -27,28 +29,56 @@ class _EventState extends State<Event> {
     _vipboards = boardOrder('/vipboard/getList');
   }
 
+  Icon cusIcon = Icon(Icons.search);
+
+  // 앱 헤더 버튼초기 생성
+  Widget cusSearchBar = Row(children: [
+                  cateBtn("숙박"),
+                  cateBtn("외식"),
+                  cateBtn("병원"),
+                  cateBtn("서비스"),
+  ],);
+  // 앱 헤더 버튼 초기화
+  Widget cusSearchBarOri = Row(children: [
+                  cateBtn("숙박"),
+                  cateBtn("외식"),
+                  cateBtn("병원"),
+                  cateBtn("서비스"),
+  ],);
+  // 앱 헤더 text 검색창
+  Widget cusSearchText = TextField(
+                          textInputAction: TextInputAction.go,
+                          style: TextStyle(color: Colors.white, fontSize: 16.0),
+                        );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Row(
-          children: [
-            cateBtn("숙박"),
-            cateBtn("외식"),
-            cateBtn("병원"),
-            cateBtn("서비스"),
-            ElevatedButton(
-              onPressed: () {},
-              child: Icon(Icons.search),
-            ),
-          ],
-        ),
-          // backgroundColor: Colors.green,
-          centerTitle: true,
-        ),
       body:SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
+            SliverAppBar(
+               floating: true,
+               leading: IconButton(
+                 icon: Icon(Icons.menu),
+                 onPressed: () {},),
+               title: cusSearchBar,
+               actions: <Widget>[
+                IconButton(onPressed: () {
+                  setState(() {
+                      if(this.cusIcon.icon == Icons.search){
+                        this.cusIcon = Icon(Icons.cancel);
+                        this.cusSearchBar = cusSearchText;
+                      }else{
+                        this.cusIcon = Icon(Icons.search);
+                        this.cusSearchBar = cusSearchBarOri;
+                      }
+                  });
+                },
+                icon: cusIcon,
+                )
+              ],
+            ),
             SliverToBoxAdapter
             (child:      
               Padding(
@@ -58,14 +88,11 @@ class _EventState extends State<Event> {
                   children: [
                     Text("인기업체", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
                     SizedBox(height: 35,),
-                    SizedBox(
-                      height: 500,
-                      child: getShopList(_vipboards), 
-                      ),
                   ],
                 ),
               ),
             ),
+            getShopList(_vipboards), 
           ],
         ),
       ),
@@ -82,20 +109,21 @@ FutureBuilder getShopList(Future<dynamic> _vipboards) {
       print("context $context");
         print(snapshot.data.toString());
       if(!snapshot.hasData)
-        return Center(
+        return SliverFillRemaining(
+        child:  Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator()
             ],
           ),
-        );
-      
+        )
+      );
 
 
-      return ListView.builder(
-      itemCount: snapshot.data.length,
-      itemBuilder: (context, index) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
       // num number = index + 1;
       dynamic root = snapshot.data[index];
       // 타이틀
@@ -116,6 +144,17 @@ FutureBuilder getShopList(Future<dynamic> _vipboards) {
       // 글 올린 날짜
       String date = root['VDATE'].toString();
 
+        // 이미지 슬라이드
+        // Widget image_slider_carousel = Carousel(
+        //   autoplay: false,
+        //   images: [
+        //     image,
+        //     image,
+        //     image,
+        //   ],
+        // );
+
+
          return Card(
            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,10 +164,11 @@ FutureBuilder getShopList(Future<dynamic> _vipboards) {
                     height: 230,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
+                      // child: image_slider_carousel,
                       child: image,
                       ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0)
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                   ),
                   SizedBox(height: 20,),
@@ -153,7 +193,9 @@ FutureBuilder getShopList(Future<dynamic> _vipboards) {
                 ],
               )
          );
-        }
+        },
+         childCount: snapshot.data.length,
+        ),
       );
     },
   );
