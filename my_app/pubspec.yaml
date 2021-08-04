@@ -45,7 +45,8 @@ dependencies:
   # carousel_pro: ^1.0.0
 
   #lecture
-  image_picker: ^0.6.1+4
+  # image_picker: ^0.6.1+4
+  image_picker: ^0.8.3
   #firebase_auth: ^1.1.4
   #google_sign_in: ^4.1.0
   flutter_signin_button: ^0.2.8
@@ -53,7 +54,6 @@ dependencies:
   charts_flutter: ^0.11.0
   # DateTimeFormat
   intl: ^0.17.0
-
 dev_dependencies:
   
   flutter_test:
