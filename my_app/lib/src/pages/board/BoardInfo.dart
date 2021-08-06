@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/common/common_widget.dart';
 import 'package:my_app/data/network.dart';
 
 class BoardInfo extends StatefulWidget {
   final dynamic param;
+
   // final dynamic param;
   const BoardInfo({Key? key, this.param}) : super(key: key);
 
@@ -16,12 +18,20 @@ class _BoardInfoState extends State<BoardInfo> {
   late Future<dynamic> _boarderInfo;
   late Future<dynamic> _repleInfo;
 
+  late dynamic _boarderInfoData;
+  late dynamic _repleCount = 0;
+
   CommonWidget _common = CommonWidget();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    init();
+    print(_repleInfo.toString());
+  }
+
+  Future init() async {
     _boarderInfo = boardInfoOrder('/board/boardInfo', widget.param);
     _repleInfo = boardInfoOrder('/board/repleInfo', widget.param);
   }
@@ -30,204 +40,254 @@ class _BoardInfoState extends State<BoardInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                title: Text('글 작성 페이지'),
-                floating: true,
-                // flexibleSpace: Placeholder(),
-                expandedHeight: 50,
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: <Widget>[
-                    _getInfoComp(_boarderInfo),
-                  ],
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  title: Text('글 작성 페이지'),
+                  floating: true,
+                  // flexibleSpace: Placeholder(),
+                  expandedHeight: 50,
                 ),
-              ),
-              _getRepleComp(_repleInfo)
-            ],
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        _getInfoComp(_boarderInfo),
+                        _repleForm(widget.param, _boarderInfo)
+                      ],
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                    padding: const EdgeInsets.all(8.0),
+                    sliver: _getRepleComp(_repleInfo))
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
 
-/* *************************************** start 글 상세 페이지 ***************************************** */
+  /* *************************************** start 글 상세 페이지 ***************************************** */
 // 글 상세 페이지 컴포넌트 (단건);
-FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
-  return FutureBuilder(
-      future: _boarderInfo,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        final BorderRadius _baseBorderRadius = BorderRadius.circular(8);
+  FutureBuilder _getInfoComp(Future<dynamic> _boarderInfo) {
+    return FutureBuilder(
+        future: _boarderInfo,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          final BorderRadius _baseBorderRadius = BorderRadius.circular(8);
 
-        CircleAvatar image =
-            CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
+          CircleAvatar image =
+              CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
 
-        const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
+          late dynamic root;
+          late String btitle;
+          late String bcont;
+          late String classnm;
+          late String blike;
+          late String bvisit;
+          late String bdate;
+          late String mid;
 
-        print(snapshot.data.toString());
-        // var root = snapshot.data[0];
-        if (!snapshot.hasData)
-          return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-            ],
-          ));
-        return Container(
-          margin: EdgeInsets.only(top: 7.0),
-          padding: EdgeInsets.all(5.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 15,
-                height: 25,
-                color: Colors.black,
-              ),
-              Container(
-                padding: _padding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('타이틀',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 24)),
-                    InkWell(
-                      child: Container(
-                        child: Chip(
-                          label: Icon(
-                            Icons.share,
-                            size: 24,
+          const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
+
+          // print(snapshot.data.toString());
+          // var root = snapshot.data[0];
+          if (!snapshot.hasData)
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ));
+
+          root = snapshot.data[0];
+          _boarderInfoData = root;
+          btitle = root['BTITLE'].toString();
+          bcont = root['BCONT'].toString();
+          classnm = root['CLASSNM'].toString();
+          blike = root['BLIKE'].toString();
+          bvisit = root['BVISIT'].toString();
+          bdate = root['BDATE2'].toString();
+          mid = root['MID'].toString();
+
+          return Container(
+            margin: EdgeInsets.only(top: 7.0),
+            padding: EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 15,
+                  height: 25,
+                  color: Colors.black,
+                ),
+                Container(
+                  padding: _padding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(btitle,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 24)),
+                      InkWell(
+                        child: Container(
+                          child: Chip(
+                            label: Icon(
+                              Icons.share,
+                              size: 24,
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          print('공유');
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  padding: _padding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      image,
+                      SizedBox(
+                        width: 10.0,
                       ),
-                      onTap: () {
-                        print('공유');
-                      },
-                    )
-                  ],
+                      Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Text(
+                              '$mid 님 |  $classnm',
+                              style: TextStyle(
+                                  fontSize: 12.0, fontWeight: FontWeight.w700),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(bdate)
+                          ]))
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                padding: _padding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    image,
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Container(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Text(
-                            'gogogo 님',
-                            style: TextStyle(
-                                fontSize: 12.0, fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Text('modle')
-                        ]))
-                  ],
+                SizedBox(
+                  height: 15.0,
                 ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Container(
-                padding: _padding,
-                child: RichText(
-                  // overflow: TextOverflow.ellipsis,
-                  strutStyle: StrutStyle(fontSize: 12.0),
-                  text: TextSpan(
-                      style: TextStyle(color: Colors.black),
-                      text:
-                          '이헤인 바보 이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보이헤인 바보'),
+                Container(
+                  padding: _padding,
+                  child: RichText(
+                    // overflow: TextOverflow.ellipsis,
+                    strutStyle: StrutStyle(fontSize: 12.0),
+                    text: TextSpan(
+                        style: TextStyle(color: Colors.black), text: bcont),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              _getIcon(snapshot.data),
-            ],
-          ),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 3),
-                )
-              ]),
-        );
-      });
-}
+                SizedBox(
+                  height: 30.0,
+                ),
+                _getIcon(snapshot.data),
+              ],
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 4,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+          );
+        });
+  }
 
 /* *************************************** end 글 상세 페이지 ***************************************** */
 
 /* *************************************** start 댓글 리스트 ***************************************** */
-FutureBuilder _getRepleComp(Future<dynamic> _repleInfo) {
-  return FutureBuilder(
-    future: _repleInfo,
-    builder: (BuildContext context, AsyncSnapshot snapshot) {
-      print(snapshot.data.toString());
-      if (!snapshot.hasData)
-        return SliverFillRemaining(
-          child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-            ],
-          )),
-        );
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return Container(
-              margin: EdgeInsets.only(top: 7.0),
-              padding: EdgeInsets.all(5.0),
-              child: Column(children: <Widget>[
-                ListTile(
-                  leading: Text(snapshot.data[index].toString()),
-                ),
-              ]),
-              decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 3),
-                )
-              ]),
-            );
-          },
-          childCount: snapshot.data.length,
-        ),
-      );
-    },
-  );
-}
+  FutureBuilder _getRepleComp(Future<dynamic> _repleInfo) {
+    return FutureBuilder(
+      future: _repleInfo,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        //print(snapshot.data.toString());
+        if (!snapshot.hasData) {
+          return SliverFillRemaining(
+            child: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            )),
+          );
+        } else {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(top: 7.0),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: <Widget>[
+                    index == 0 ? _count(snapshot.data) :
+                    ListTile(
+                      leading: Text(snapshot.data[index].toString()),
+                    ),
+                  ]),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 4,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
+                );
+              },
+              childCount: snapshot.data.length,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+
+
+  Widget _count(data) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                Text('댓글 수 : ${data.length}')
+              ],
+            ),
+          ),
+        ]);
+  }
+
+  
 
 /* *************************************** end 댓글 리스트 ***************************************** */
 
@@ -240,52 +300,141 @@ FutureBuilder _getRepleComp(Future<dynamic> _repleInfo) {
 // }
 
 // 아이콘들 컨테이터
-Widget _getIcon(dynamic data) {
-  // // 방문자 수
-  // String visite = data['bvisit'].toString();
-  // // 좋아요 수
-  // String blike = data['blike'].toString();
-  const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
+  Widget _getIcon(dynamic data) {
+    // // 방문자 수
+    // String visite = data['bvisit'].toString();
+    // // 좋아요 수
+    // String blike = data['blike'].toString();
+    const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
 
-  return Container(
-    padding: _padding,
-    child: Row(
-      children: [
-        Icon(
-          Icons.remove_red_eye_outlined,
-          size: 12.0,
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        Text('test'),
-        SizedBox(
-          width: 5,
-        ),
-        Icon(
-          Icons.favorite,
-          color: Colors.pink,
-          size: 12.0,
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        Text('test'),
-      ],
-    ),
-  );
-}
+    return Container(
+      padding: _padding,
+      child: Row(
+        children: [
+          Icon(
+            Icons.remove_red_eye_outlined,
+            size: 12.0,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text('test'),
+          SizedBox(
+            width: 5,
+          ),
+          Icon(
+            Icons.favorite,
+            color: Colors.pink,
+            size: 12.0,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text('test'),
+        ],
+      ),
+    );
+  }
+
+/* *************************************** start 댓글 컴포넌트 ***************************************** */
+
+  Widget _repleForm(param, Future boarderInfo) {
+    OutlineInputBorder _border =
+        OutlineInputBorder(borderRadius: BorderRadius.circular(8));
+
+    // 텍스트 필드와 연결 해야한다.
+    TextEditingController _commentController = TextEditingController();
+
+    void _handleSubmitted(String text) {
+      _commentController.clear();
+      // String text = _commentController.text;
+    }
+
+    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      margin: EdgeInsets.only(top: 10.0),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: TextField(
+              // focusNode: FocusNode(),
+              cursorColor: Colors.black,
+              controller: _commentController,
+              onSubmitted: (text) {
+                _writeComment(text);
+                _commentController.text = '';
+              },
+              decoration: InputDecoration(
+                  labelText: '댓글을 입력 해 주세요',
+                  border: _border,
+                  filled: true,
+                  enabledBorder: _border,
+                  focusedBorder: _border),
+              keyboardType: TextInputType.text,
+              // obscureText: true,
+            ),
+          ),
+          Container(
+              child: IconButton(
+                  onPressed: () {
+                    _handleSubmitted(_commentController.text);
+                  },
+                  icon: Icon(Icons.send)))
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 4,
+              offset: Offset(0, 3),
+            )
+          ]),
+    );
+  }
+
+// 댓글작성
+  void _writeComment(String text) {
+    var mid = widget.param['email'];
+    var bcd = _boarderInfoData['BCD'];
+    var ccont = text;
+
+    final data = {'mid': mid, 'bcd': bcd, 'ccont': ccont};
+
+    print("hellow = > " + data.toString());
+  }
+
+/* *************************************** end 댓글 컴포넌트 ***************************************** */
 
 /* *********************************************** 통신부분 *********************************************************************** */
 // 오더
-Future<dynamic> boardInfoOrder(String order, dynamic param) async {
-  // String url = "http://localhost:3000/login";
-  // String url = "http://192.168.15.4:3000/login";
-  String url = "http://192.168.15.4:8181" + order;
-  Network network = Network(url);
-  var data = await network.executePost(param);
-  // Iterable l =data;
-  // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
-  // List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
-  return data;
+  Future<dynamic> boardInfoOrder(String order, dynamic param) async {
+    // String url = "http://localhost:3000/login";
+    // String url = "http://192.168.0.9:3000/login";
+    String url = "http://192.168.0.9:8181" + order;
+    Network network = Network(url);
+    var data = await network.executePost(param);
+    // Iterable l =data;
+    // var listItem = (data as List).map((e) => Board.fromJsonP(e)).toList();
+    // List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
+    return data;
+  }
+
+// 동작처리
+  Future<dynamic> boardCRUD(String order, dynamic param) async {
+    // String url = "http://localhost:30ss00/login";
+    // String url = "http://192.168.0.9:3000/login";
+    String url = "http://192.168.0.9:8181" + order;
+    Network network = Network(url);
+    var data = await network.executePost(param);
+    // Iterable l =data;
+    // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
+    // List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
+    return data;
+  }
 }

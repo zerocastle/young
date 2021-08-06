@@ -17,16 +17,19 @@ import com.ys.dabang.vo.BoardVo;
 @Mapper
 public interface BoardMapper {
 
-	// °Ô½º±Û ¸®½ºÆ® ºÒ·¯¿À±â
-	public List<Map<String,Object>> getList();
+	// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<Map<String, Object>> getList();
 
-	// º£½ºÆ® °Ô½Ã±Û ºÒ·¯¿À±â
-	public List<Map<String,Object>> bestList();
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ô½Ã±ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<Map<String, Object>> bestList();
 
-	// ±Û »ó¼¼ Á¤º¸ µé°í¿À±â
-	public List<Map<String,Object>> boardInfo(Map param);
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<Map<String, Object>> boardInfo(Map param);
 
-	// ´ñ±Û °¡Áö°í ¿À±â
-	public List<Map<String,Object>> repleInfo(Map param);
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public List<Map<String, Object>> repleInfo(Map param);
+
+	// ëŒ“ê¸€ ìž…ë ¥
+	public int repleInsert(Map param);
 
 }

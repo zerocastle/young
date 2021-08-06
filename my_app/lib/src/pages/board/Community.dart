@@ -99,6 +99,7 @@ FutureBuilder getDataList(Future<dynamic> _boards) {
         return Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircularProgressIndicator(),
           ],
@@ -365,8 +366,8 @@ Widget _getIcon(dynamic data) {
 // 오더
 Future<dynamic> boardOrder(String order) async {
   // String url = "http://localhost:3000/login";
-  // String url = "http://192.168.15.4:3000/login";
-  String url = "http://192.168.15.4:8181" + order;
+  // String url = "http://192.168.0.9:3000/login";
+  String url = "http://192.168.0.9:8181" + order;
   Network network = Network(url);
   var data = await network.getJsonData();
   // Iterable l =data;

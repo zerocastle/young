@@ -1,5 +1,7 @@
 package com.ys.dabang.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-	// �Խñ� �Ѹ���
+	// 占쌉시깍옙 占싼몌옙占쏙옙
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
 	public List<Map<String, Object>> getList() throws Exception {
@@ -34,38 +36,54 @@ public class BoardController {
 
 	}
 
-	// ����Ʈ �� ����
+	// 占쏙옙占쏙옙트 占쏙옙 占쏙옙占쏙옙
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/bestList")
-	public List<Map<String,Object>> bestList() throws Exception {
+	public List<Map<String, Object>> bestList() throws Exception {
 		return service.bestList();
 
 	}
-	
-	// �Խñ� �� ���� ����
+
+	// 占쌉시깍옙 占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/boardInfo")
 	public List<Map<String, Object>> boardInfo(@RequestBody Map param) throws Exception {
-		System.out.println("�Ѿ�� ������ : " + param);
+		System.out.println("占싼억옙占� 占쏙옙占쏙옙占쏙옙 : " + param);
 
 		List<Map<String, Object>> resultData = service.boardInfo(param);
 
-		System.out.println("��� ������ = >" + resultData);
+		System.out.println("占쏙옙占� 占쏙옙占쏙옙占쏙옙 = >" + resultData);
 
 		return resultData;
 	}
-	
-	// ��� ����
+
+	// 占쏙옙占� 占쏙옙占쏙옙
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInfo")
 	public List<Map<String, Object>> repleInfo(@RequestBody Map param) throws Exception {
-		System.out.println("�Ѿ�� ������ : " + param);
+		System.out.println("占싼억옙占� 占쏙옙占쏙옙占쏙옙 : " + param);
 
 		List<Map<String, Object>> resultData = service.repleInfo(param);
 
-		System.out.println("��� ������ = >" + resultData);
+		System.out.println("占쏙옙占� 占쏙옙占쏙옙占쏙옙 = >" + resultData);
 
 		return resultData;
+	}
+
+	// 댓글 입력
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/repleInsert")
+	public Map repleInsert(@RequestBody Map param) throws Exception {
+
+		int count = service.repleInsert(param);
+
+		System.out.println("count = > " + count);
+
+		Map<String, String> result = new HashMap<String, String>();
+
+		result.put("result", (count > 0) ? "success" : "fail");
+
+		return result;
 	}
 
 }

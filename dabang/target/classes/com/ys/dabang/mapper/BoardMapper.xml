@@ -43,7 +43,7 @@
           WHERE 1 = 1
           AND A.bcd = B.bcd(+)
           GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
-          ORDER BY A.bdate desc , a.bcd asc
+          ORDER BY A.bdate desc , A.blike desc , A.bvisit desc
             ]]>
 	</select>
 
@@ -79,7 +79,7 @@
 	
 	<!-- 상세정보 -->
 	<select id="boardInfo" parameterType="hashMap" resultType="hashMap">
-       		SELECT a.* ,b.*
+       		SELECT a.*,TO_CHAR(a.bdate , 'yyyy-mm-dd') as BDATE2 ,b.*
        FROM BOARD a , (SELECT *
                        FROM MEMBERCLASS
                        WHERE 1 = 1
@@ -106,5 +106,12 @@
          WHERE 1= 1
          AND a.bcd = #{bcd}
 	</select>
+	
+	<!-- 댓글 입력 -->
+	<insert id="repleInsert" parameterType="hashMap">
+		INSERT INTO COMMENTS(ccd,ccont,cdate,bcd,mid)
+        SELECT MAX(ccd) + 1 ,#{ccont},SYSDATE,#{bcd},#{mid} 
+        FROM COMMENTS
+	</insert>
 
 </mapper>

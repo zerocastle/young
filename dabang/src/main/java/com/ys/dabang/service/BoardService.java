@@ -17,13 +17,13 @@ public class BoardService {
 	private BoardMapper mapper;
 
 	// 게시글 불러오기
-	public List<Map<String,Object>> getList() {
+	public List<Map<String, Object>> getList() {
 
 		return mapper.getList();
 	}
 
 	// 베스트 게시글 불러오기
-	public List<Map<String,Object>> bestList() {
+	public List<Map<String, Object>> bestList() {
 		return mapper.bestList();
 	}
 
@@ -36,4 +36,9 @@ public class BoardService {
 	public List<Map<String, Object>> repleInfo(Map param) {
 		return mapper.repleInfo(param);
 	};
+
+	// 댓글 입력
+	public int repleInsert(Map param) {
+		return mapper.repleInsert(param);
+	}
 }
