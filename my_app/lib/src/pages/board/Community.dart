@@ -38,6 +38,9 @@ class _CommunityState extends State<Community> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.brown[100],
+      appBar: AppBar(
+        title: Text('커뮤니티 '),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -135,7 +138,8 @@ class _CommunityState extends State<Community> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BoardInfo(param: root , user : widget.user)));
+                            builder: (context) =>
+                                BoardInfo(param: root, user: widget.user)));
                   },
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,8 +373,8 @@ class _CommunityState extends State<Community> {
 // 오더
   Future<dynamic> boardOrder(String order) async {
     // String url = "http://localhost:3000/login";
-    // String url = "http://192.168.219.108:3000/login";
-    String url = "http://192.168.219.108:8181" + order;
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
     Network network = Network(url);
     var data = await network.getJsonData();
     // Iterable l =data;

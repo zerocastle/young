@@ -64,7 +64,8 @@ class _BoardInfoState extends State<BoardInfo> {
                     child: Column(
                       children: <Widget>[
                         _getInfoComp(_boarderInfo),
-                        _repleForm(widget.param, _boarderInfo)
+                        _repleForm(widget.param, _boarderInfo),
+                        _count(_repleInfo)
                       ],
                     ),
                   ),
@@ -79,6 +80,11 @@ class _BoardInfoState extends State<BoardInfo> {
       ),
     );
   }
+
+  /* #=========================================# 
+          | 아래 부터 함수 단위 적용| 
+    #=========================================#
+  */
 
   /* *************************************** start 글 상세 페이지 ***************************************** */
 // 글 상세 페이지 컴포넌트 (단건);
@@ -252,7 +258,6 @@ class _BoardInfoState extends State<BoardInfo> {
                   margin: EdgeInsets.only(top: 7.0),
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: <Widget>[
-                    _count(snapshot.data, index),
                     ListTile(
                       leading: Text(snapshot.data[index].toString()),
                     ),
@@ -276,20 +281,6 @@ class _BoardInfoState extends State<BoardInfo> {
         }
       },
     );
-  }
-
-  // 댓글수 표현
-  Widget _count(dynamic data, index) {
-    return Row(mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            color: Colors.blue[50],
-            child: Column(
-              children: <Widget>[Text('댓글 수 : ${data.length}')],
-            ),
-          )
-        ]);
   }
 
 /* *************************************** end 댓글 리스트 ***************************************** */
@@ -407,14 +398,58 @@ class _BoardInfoState extends State<BoardInfo> {
         _repleInfo = boardInfoOrder('/board/repleInfo', widget.param));
   }
 
+  // 댓글수 표현
+  FutureBuilder _count(Future repleInfo) {
+    return FutureBuilder(
+        future: repleInfo,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ));
+
+          return Container(
+            margin: EdgeInsets.only(top: 7.0),
+            padding: EdgeInsets.all(5.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                      color: Colors.blue[50],
+                      child: Column(
+                        children: <Widget>[
+                          Text('댓글 수 : ${snapshot.data.length}')
+                        ],
+                      ))
+                ]),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 4,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+          );
+        });
+  }
+
 /* *************************************** end 댓글 컴포넌트 ***************************************** */
 
 /* *********************************************** 통신부분 *********************************************************************** */
 // 오더
   Future<dynamic> boardInfoOrder(String order, dynamic param) async {
     // String url = "http://localhost:3000/login";
-    // String url = "http://192.168.219.108:3000/login";
-    String url = "http://192.168.219.108:8181" + order;
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
     Network network = Network(url);
     var data = await network.executePost(param);
     // Iterable l =data;
@@ -426,8 +461,8 @@ class _BoardInfoState extends State<BoardInfo> {
 // 동작처리
   Future<dynamic> boardCRUD(String order, dynamic param) async {
     // String url = "http://localhost:30ss00/login";
-    // String url = "http://192.168.219.108:3000/login";
-    String url = "http://192.168.219.108:8181" + order;
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
     Network network = Network(url);
     var data = await network.executeCRUD(param);
     // Iterable l =data;
