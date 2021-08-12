@@ -38,4 +38,24 @@ class Network {
       return null;
     }
   }
+
+  // 작성 및 삭제
+  Future<dynamic> executeCRUD(dynamic data) async{
+    final response = await http.post(Uri.parse(url),
+    body: jsonEncode({
+      'mid' : data['mid'].toString(),
+      'bcd' : data['bcd'].toString(),
+      'ccont' : data['ccont'].toString()
+    }),
+    headers: {'Content-Type' : "application/json"},
+    );
+
+    if(response.statusCode == 200){
+      String jsonData = response.body;
+      var parsingData = jsonDecode(jsonData);
+      return parsingData; 
+    }else{
+      return null;
+    }
+  }
 }

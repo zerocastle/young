@@ -32,5 +32,6 @@ public class VipBoardController {
 		return service.getList();
 
 	}
+	
 
 }

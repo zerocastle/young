@@ -5,10 +5,11 @@ import 'package:my_app/common/common_widget.dart';
 import 'package:my_app/data/network.dart';
 
 class BoardInfo extends StatefulWidget {
+  final User user;
   final dynamic param;
 
   // final dynamic param;
-  const BoardInfo({Key? key, this.param}) : super(key: key);
+  const BoardInfo({Key? key, this.param, required this.user}) : super(key: key);
 
   @override
   _BoardInfoState createState() => _BoardInfoState();
@@ -19,7 +20,10 @@ class _BoardInfoState extends State<BoardInfo> {
   late Future<dynamic> _repleInfo;
 
   late dynamic _boarderInfoData;
-  late dynamic _repleCount = 0;
+
+  late String state = "";
+
+  bool countSignal = true;
 
   CommonWidget _common = CommonWidget();
 
@@ -60,7 +64,8 @@ class _BoardInfoState extends State<BoardInfo> {
                     child: Column(
                       children: <Widget>[
                         _getInfoComp(_boarderInfo),
-                        _repleForm(widget.param, _boarderInfo)
+                        _repleForm(widget.param, _boarderInfo),
+                        _count(_repleInfo)
                       ],
                     ),
                   ),
@@ -75,6 +80,11 @@ class _BoardInfoState extends State<BoardInfo> {
       ),
     );
   }
+
+  /* #=========================================# 
+          | 아래 부터 함수 단위 적용| 
+    #=========================================#
+  */
 
   /* *************************************** start 글 상세 페이지 ***************************************** */
 // 글 상세 페이지 컴포넌트 (단건);
@@ -98,7 +108,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
           const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
 
-          // print(snapshot.data.toString());
+          print(snapshot.data.toString());
           // var root = snapshot.data[0];
           if (!snapshot.hasData)
             return Center(
@@ -222,6 +232,9 @@ class _BoardInfoState extends State<BoardInfo> {
 
 /* *************************************** start 댓글 리스트 ***************************************** */
   FutureBuilder _getRepleComp(Future<dynamic> _repleInfo) {
+    // 이미지 (파일 이미지 나중에 추가)
+    CircleAvatar image =
+        CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
     return FutureBuilder(
       future: _repleInfo,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -245,7 +258,6 @@ class _BoardInfoState extends State<BoardInfo> {
                   margin: EdgeInsets.only(top: 7.0),
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: <Widget>[
-                    index == 0 ? _count(snapshot.data) :
                     ListTile(
                       leading: Text(snapshot.data[index].toString()),
                     ),
@@ -271,33 +283,7 @@ class _BoardInfoState extends State<BoardInfo> {
     );
   }
 
-
-
-  Widget _count(data) {
-    return Row(mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Column(
-              children: <Widget>[
-                Text('댓글 수 : ${data.length}')
-              ],
-            ),
-          ),
-        ]);
-  }
-
-  
-
 /* *************************************** end 댓글 리스트 ***************************************** */
-
-/* 댓글 입력창 위젯 */
-
-// Widget _writeReple(){
-
-//   return null;
-
-// }
 
 // 아이콘들 컨테이터
   Widget _getIcon(dynamic data) {
@@ -347,7 +333,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
     void _handleSubmitted(String text) {
       _commentController.clear();
-      // String text = _commentController.text;
+      _writeComment(text);
     }
 
     GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -399,14 +385,61 @@ class _BoardInfoState extends State<BoardInfo> {
   }
 
 // 댓글작성
-  void _writeComment(String text) {
+  Future<void> _writeComment(String text) async {
     var mid = widget.param['email'];
     var bcd = _boarderInfoData['BCD'];
     var ccont = text;
 
-    final data = {'mid': mid, 'bcd': bcd, 'ccont': ccont};
+    final data = {'mid': widget.user.email, 'bcd': bcd, 'ccont': ccont};
 
-    print("hellow = > " + data.toString());
+    print("write param = > " + data.toString());
+
+    await boardCRUD("/board/repleInsert", data).then((value) =>
+        _repleInfo = boardInfoOrder('/board/repleInfo', widget.param));
+  }
+
+  // 댓글수 표현
+  FutureBuilder _count(Future repleInfo) {
+    return FutureBuilder(
+        future: repleInfo,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ));
+
+          return Container(
+            margin: EdgeInsets.only(top: 7.0),
+            padding: EdgeInsets.all(5.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                      color: Colors.blue[50],
+                      child: Column(
+                        children: <Widget>[
+                          Text('댓글 수 : ${snapshot.data.length}')
+                        ],
+                      ))
+                ]),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 4,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+          );
+        });
   }
 
 /* *************************************** end 댓글 컴포넌트 ***************************************** */
@@ -415,8 +448,8 @@ class _BoardInfoState extends State<BoardInfo> {
 // 오더
   Future<dynamic> boardInfoOrder(String order, dynamic param) async {
     // String url = "http://localhost:3000/login";
-    // String url = "http://192.168.0.9:3000/login";
-    String url = "http://192.168.0.9:8181" + order;
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
     Network network = Network(url);
     var data = await network.executePost(param);
     // Iterable l =data;
@@ -428,10 +461,10 @@ class _BoardInfoState extends State<BoardInfo> {
 // 동작처리
   Future<dynamic> boardCRUD(String order, dynamic param) async {
     // String url = "http://localhost:30ss00/login";
-    // String url = "http://192.168.0.9:3000/login";
-    String url = "http://192.168.0.9:8181" + order;
+    // String url = "http://192.168.15.4:3000/login";
+    String url = "http://192.168.15.4:8181" + order;
     Network network = Network(url);
-    var data = await network.executePost(param);
+    var data = await network.executeCRUD(param);
     // Iterable l =data;
     // var listItem = (data as List).map((e) => Board.fromJson(e)).toList();
     // List<Board> listItem = List<Board>.from(l.map((e) => Board.fromJson(e)));
