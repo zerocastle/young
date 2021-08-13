@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/controller/home_controller.dart';
 import 'package:my_app/data/network.dart';
 import 'package:my_app/model/BoardVO.dart';
 import 'package:my_app/src/pages/board/BoardInfo.dart';
@@ -22,6 +24,8 @@ class _CommunityState extends State<Community> {
   late Future<dynamic> _boards;
   // 베스트 게시글
   late Future<dynamic> _bestBoards;
+
+  final HomeController controller = Get.put(HomeController());
 
   @override
   void initState() {
@@ -43,6 +47,7 @@ class _CommunityState extends State<Community> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: controller.scrollController,
           child: Column(
             children: <Widget>[
               Padding(
@@ -109,77 +114,84 @@ class _CommunityState extends State<Community> {
               CircularProgressIndicator(),
             ],
           ));
-        return ListView.builder(
-            primary: false,
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              // num number = index + 1;
-              dynamic root = snapshot.data[index];
-              // 타이틀
-              String title = root['BTITLE'].toString();
-              // 컨텐츠
-              String content = root['BCONT'].toString();
-              // 이미지 (파일 이미지 나중에 추가)
-              CircleAvatar image =
-                  CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
-              // 이름
-              String name = root['MID'].toString();
-              // 글 올린 날짜
-              String date = root['BDATE'].toString();
-              // 피드 시간
-              String rec = root['MT'].toString();
+        return NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            print(scrollInfo.metrics.pixels);
+            if (scrollInfo.metrics.pixels ==
+                scrollInfo.metrics.maxScrollExtent) {
+              print('reload');
+            }
+            return false;
+          },
+          child: ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                // num number = index + 1;
+                dynamic root = snapshot.data[index];
+                // 타이틀
+                String title = root['BTITLE'].toString();
+                // 컨텐츠
+                String content = root['BCONT'].toString();
+                // 이미지 (파일 이미지 나중에 추가)
+                CircleAvatar image = CircleAvatar(
+                    backgroundImage: AssetImage('assets/fire.png'));
+                // 이름
+                String name = root['MID'].toString();
+                // 글 올린 날짜
+                String date = root['BDATE'].toString();
+                // 피드 시간
+                String rec = root['MT'].toString();
 
-              return Card(
-                child: ListTile(
-                  leading: image,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                BoardInfo(param: root, user: widget.user)));
-                  },
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      RichText(
-                        overflow: TextOverflow.ellipsis,
-                        strutStyle: StrutStyle(fontSize: 12.0),
-                        text: TextSpan(
-                            style: TextStyle(color: Colors.black),
-                            text: content),
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Text('Name | Time '),
-                          Text(
-                            name + ' | $rec',
-                            style: TextStyle(fontSize: 12.0),
-                          ),
-                          _getIcon(root)
-                        ],
-                      )
-                    ],
+                return Card(
+                  child: ListTile(
+                    leading: image,
+                    onTap: () {
+                      Get.to(BoardInfo(param: root, user: widget.user),
+                          transition: Transition.zoom);
+                    },
+                    title: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        RichText(
+                          overflow: TextOverflow.ellipsis,
+                          strutStyle: StrutStyle(fontSize: 12.0),
+                          text: TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              text: content),
+                        ),
+                        SizedBox(
+                          height: 18,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Text('Name | Time '),
+                            Text(
+                              name + ' | $rec',
+                              style: TextStyle(fontSize: 12.0),
+                            ),
+                            _getIcon(root)
+                          ],
+                        )
+                      ],
+                    ),
+                    // leading: ,
                   ),
-                  // leading: ,
-                ),
-              );
-            });
+                );
+              }),
+        );
       },
     );
   }
