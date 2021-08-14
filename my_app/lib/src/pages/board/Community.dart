@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/controller/home_controller.dart';
 import 'package:my_app/data/network.dart';
 import 'package:my_app/model/BoardVO.dart';
+import 'package:my_app/src/controller/home_controller.dart';
 import 'package:my_app/src/pages/board/BoardInfo.dart';
 
 class Community extends StatefulWidget {
@@ -40,6 +40,7 @@ class _CommunityState extends State<Community> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       // backgroundColor: Colors.brown[100],
       appBar: AppBar(
@@ -100,9 +101,9 @@ class _CommunityState extends State<Community> {
   /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
 // 게시글 뿌려주는곳
-  FutureBuilder getDataList(Future<dynamic> _boards) {
+  FutureBuilder getDataList(Future<dynamic> boards) {
     return FutureBuilder(
-      future: _boards,
+      future: boards,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         print(snapshot.data.toString());
         if (!snapshot.hasData)

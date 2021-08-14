@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:my_app/src/repository/community_repository.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
@@ -9,8 +10,8 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    //_load();
-    _event();
+    _load();
+    //_event();
     super.onInit();
   }
 
@@ -23,5 +24,9 @@ class HomeController extends GetxController {
         print('reload');
       }
     });
+  }
+
+  void _load(){
+    CommunityRepository.to.loadData();
   }
 }

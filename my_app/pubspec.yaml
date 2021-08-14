@@ -56,6 +56,10 @@ dependencies:
   intl: ^0.17.0
   # getX
   get: ^4.3.8
+
+  flutter_svg: ^0.19.1
+  shared_preferences: ^2.0.6
+  cached_network_image: ^2.5.0
 dev_dependencies:
   
   flutter_test:
