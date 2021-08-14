@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:my_app/src/controller/home_controller.dart';
+import 'package:my_app/src/controller/community_controller.dart';
 import 'package:my_app/src/pages/board/Community.dart';
 import 'package:my_app/src/pages/event/event.dart';
 import 'package:my_app/src/pages/home/home.dart';

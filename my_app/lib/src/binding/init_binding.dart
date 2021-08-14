@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:my_app/src/controller/community_controller.dart';
 import 'package:my_app/src/repository/community_repository.dart';
 
 class InitBinding implements Bindings{
@@ -6,7 +7,8 @@ class InitBinding implements Bindings{
   void dependencies() {
     // TODO: implement dependencies
 
-    Get.put(CommunityRepository(),permanent: true);
+    Get.put(CommunityRepository());
+    //Get.put(CommunityController());
     
   }
 }

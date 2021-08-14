@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/data/network.dart';
 import 'package:my_app/model/BoardVO.dart';
-import 'package:my_app/src/controller/home_controller.dart';
+import 'package:my_app/src/controller/community_controller.dart';
 import 'package:my_app/src/pages/board/BoardInfo.dart';
 
-class Community extends StatefulWidget {
+class Community extends StatefulWidget  {
   final User user;
   const Community({Key? key, required this.user}) : super(key: key);
 
@@ -25,7 +25,7 @@ class _CommunityState extends State<Community> {
   // 베스트 게시글
   late Future<dynamic> _bestBoards;
 
-  final HomeController controller = Get.put(HomeController());
+  final CommunityController controller = Get.put(CommunityController());
 
   @override
   void initState() {
@@ -48,6 +48,7 @@ class _CommunityState extends State<Community> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+
           controller: controller.scrollController,
           child: Column(
             children: <Widget>[

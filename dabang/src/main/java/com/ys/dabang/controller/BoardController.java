@@ -32,6 +32,7 @@ public class BoardController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
 	public List<Map<String, Object>> getList() throws Exception {
+		System.out.println("보더 리스트들 = > " + service.getList());
 		return service.getList();
 
 	}

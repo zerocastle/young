@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:my_app/src/repository/community_repository.dart';
 
-class HomeController extends GetxController {
-  static HomeController get to => Get.find();
+class CommunityController extends GetxController {
+  static CommunityController get to => Get.find();
 
   ScrollController scrollController = ScrollController();
 
