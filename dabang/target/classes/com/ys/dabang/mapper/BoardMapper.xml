@@ -6,6 +6,7 @@
 	
 	<!-- 게시물 불러오기 -->
 	<select id="getList" resultType="hashMap">
+		<include refid="pagingPre" />
 	    <![CDATA[
 	   SELECT 
 	 	   A.bcd 
@@ -45,6 +46,7 @@
           GROUP BY A.bcd , A.btitle ,A.bcont,A.bdate,A.blike,A.bvisit,A.mid
           ORDER BY A.bdate desc , A.blike desc , A.bvisit desc
             ]]>
+         <include refid="pagingPost" />
 	</select>
 
 	<!-- 베스트 글 -->
@@ -114,5 +116,33 @@
         SELECT MAX(ccd) + 1 ,#{ccont},SYSDATE,#{bcd},#{mid} 
         FROM COMMENTS
 	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<sql id="pagingPre">
+		<![CDATA[
+   			SELECT AAA.*
+			  FROM (
+			          SELECT COUNT(*) OVER() AS TOTAL_COUNT
+			               , ROWNUM rnum
+			               , AA.*
+			            FROM (  
+ 		]]>
+ 	</sql>
+ 	
+ 	<sql id="pagingPost">
+ 		<![CDATA[
+ 			 	             ) AA
+			       ) AAA
+			 WHERE AAA.RNUM BETWEEN #{START} AND #{END}
+ 		]]>
+ 	</sql>
 
 </mapper>

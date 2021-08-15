@@ -17,16 +17,16 @@ import com.ys.dabang.vo.BoardVo;
 @Mapper
 public interface BoardMapper {
 
-	// �Խ��� ����Ʈ �ҷ�����
-	public List<Map<String, Object>> getList();
+	// 게시글 들고오기
+	public List<Map<String, Object>> getList(Map param);
 
-	// ����Ʈ �Խñ� �ҷ�����
+	// 베스트 게시글 들고오기
 	public List<Map<String, Object>> bestList();
 
-	// �� �� ���� ������
+	// 게시글 정보 들고오기
 	public List<Map<String, Object>> boardInfo(Map param);
 
-	// ��� ������ ����
+	// 댓글 정보 들고오기
 	public List<Map<String, Object>> repleInfo(Map param);
 
 	// 댓글 입력

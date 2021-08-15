@@ -16,28 +16,28 @@ public class BoardService {
 
 	private BoardMapper mapper;
 
-	// °Ô½Ã±Û ºÒ·¯¿À±â
-	public List<Map<String, Object>> getList() {
+	// ï¿½Ô½Ã±ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<Map<String, Object>> getList(Map param) {
 
-		return mapper.getList();
+		return mapper.getList(param);
 	}
 
-	// º£½ºÆ® °Ô½Ã±Û ºÒ·¯¿À±â
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ô½Ã±ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<Map<String, Object>> bestList() {
 		return mapper.bestList();
 	}
 
-	// ±Û »ó¼¼ Á¤º¸ µé°í¿À±â
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<Map<String, Object>> boardInfo(Map param) {
 		return mapper.boardInfo(param);
 	}
 
-	// ´ñ±Û °¡Áö°í ¿À±â
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public List<Map<String, Object>> repleInfo(Map param) {
 		return mapper.repleInfo(param);
 	};
 
-	// ´ñ±Û ÀÔ·Â
+	// ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
 	public int repleInsert(Map param) {
 		return mapper.repleInsert(param);
 	}

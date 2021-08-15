@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ys.dabang.service.BoardService;
-import com.ys.dabang.vo.BoardVo;
 
 import lombok.AllArgsConstructor;
 
@@ -28,12 +27,36 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-	// 占쌉시깍옙 占싼몌옙占쏙옙
+	// 보더 리스트 페이징 처리
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
-	public List<Map<String, Object>> getList() throws Exception {
-		System.out.println("보더 리스트들 = > " + service.getList());
-		return service.getList();
+	public Map<String, Object> getList() throws Exception {
+
+		String currentPageNo = "1";
+		String pageRow = "10";
+		Map<String, String> param = new HashMap<String, String>();
+
+		param.put("START", currentPageNo);
+		param.put("END", pageRow);
+
+		List<Map<String, Object>> temp = service.getList(param);
+		List itemList = new ArrayList<>();
+		Map<String , Object> pageInfo = new HashMap<String , Object>();
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		for (int i = 0; i < temp.size(); i++) {
+			itemList.add(temp.get(i));
+		}
+		
+		pageInfo.put("TOTAL_COUNT",temp.get(0).get("TOTAL_COUNT"));
+		
+		resultMap.put("pageInfo",pageInfo);
+		resultMap.put("items", itemList);
+
+		System.out.println("보더 리스트들 = > " + resultMap);
+
+		return resultMap;
 
 	}
 

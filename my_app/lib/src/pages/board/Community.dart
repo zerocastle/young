@@ -5,11 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/data/network.dart';
-import 'package:my_app/model/BoardVO.dart';
+import 'package:my_app/model/CommunityResult.dart';
+import 'package:my_app/model/CommunityVO.dart';
 import 'package:my_app/src/controller/community_controller.dart';
 import 'package:my_app/src/pages/board/BoardInfo.dart';
 
-class Community extends StatefulWidget  {
+class Community extends StatefulWidget {
   final User user;
   const Community({Key? key, required this.user}) : super(key: key);
 
@@ -31,24 +32,22 @@ class _CommunityState extends State<Community> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _boards = boardOrder('/board/getList');
+    // _boards = boardOrder('/board/getList');
     _bestBoards = boardOrder('/board/bestList');
 
-    print(_bestBoards.toString());
+    // print(_bestBoards.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // backgroundColor: Colors.brown[100],
       appBar: AppBar(
         title: Text('커뮤니티 '),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-
+          child: Obx(
+        () => SingleChildScrollView(
           controller: controller.scrollController,
           child: Column(
             children: <Widget>[
@@ -91,111 +90,86 @@ class _CommunityState extends State<Community> {
                   ],
                 ),
               ),
-              getDataList(_boards)
+              getDataList()
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 
   /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
 // 게시글 뿌려주는곳
-  FutureBuilder getDataList(Future<dynamic> boards) {
-    return FutureBuilder(
-      future: boards,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        print(snapshot.data.toString());
-        if (!snapshot.hasData)
-          return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-            ],
-          ));
-        return NotificationListener<ScrollNotification>(
-          onNotification: (ScrollNotification scrollInfo) {
-            print(scrollInfo.metrics.pixels);
-            if (scrollInfo.metrics.pixels ==
-                scrollInfo.metrics.maxScrollExtent) {
-              print('reload');
-            }
-            return false;
-          },
-          child: ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(8),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                // num number = index + 1;
-                dynamic root = snapshot.data[index];
-                // 타이틀
-                String title = root['BTITLE'].toString();
-                // 컨텐츠
-                String content = root['BCONT'].toString();
-                // 이미지 (파일 이미지 나중에 추가)
-                CircleAvatar image = CircleAvatar(
-                    backgroundImage: AssetImage('assets/fire.png'));
-                // 이름
-                String name = root['MID'].toString();
-                // 글 올린 날짜
-                String date = root['BDATE'].toString();
-                // 피드 시간
-                String rec = root['MT'].toString();
+  Widget getDataList() {
+    return ListView.builder(
+        primary: false,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8),
+        itemCount: controller.communityResult.value.items == null
+            ? 0
+            : controller.communityResult.value.items!.length,
+        itemBuilder: (context, index) {
+          CommunityVO root =
+              controller.communityResult.value.items?[index] as CommunityVO;
+          // 타이틀
+          String? title = root.btitle;
+          // 컨텐츠
+          String? content = root.bcont;
+          // 이미지 (파일 이미지 나중에 추가)
+          CircleAvatar image =
+              CircleAvatar(backgroundImage: AssetImage('assets/fire.png'));
+          // 이름
+          String? name = root.mid;
+          // 글 올린 날짜
+          String? date = root.bdate;
+          // 피드 시간
+          int? rec = root.rec;
 
-                return Card(
-                  child: ListTile(
-                    leading: image,
-                    onTap: () {
-                      Get.to(BoardInfo(param: root, user: widget.user),
-                          transition: Transition.zoom);
-                    },
-                    title: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        RichText(
-                          overflow: TextOverflow.ellipsis,
-                          strutStyle: StrutStyle(fontSize: 12.0),
-                          text: TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              text: content),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Text('Name | Time '),
-                            Text(
-                              name + ' | $rec',
-                              style: TextStyle(fontSize: 12.0),
-                            ),
-                            _getIcon(root)
-                          ],
-                        )
-                      ],
-                    ),
-                    // leading: ,
+          return Card(
+            child: ListTile(
+              leading: image,
+              onTap: () {
+                Get.to(BoardInfo(param: root, user: widget.user),
+                    transition: Transition.zoom);
+              },
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title!,
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
-                );
-              }),
-        );
-      },
-    );
+                  SizedBox(
+                    height: 7,
+                  ),
+                  RichText(
+                    overflow: TextOverflow.ellipsis,
+                    strutStyle: StrutStyle(fontSize: 12.0),
+                    text: TextSpan(
+                        style: TextStyle(color: Colors.black), text: content),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Text('Name | Time '),
+                      Text(
+                        ' $name| ${rec.toString()}',
+                        style: TextStyle(fontSize: 12.0),
+                      ),
+                      _getIcon(root)
+                    ],
+                  )
+                ],
+              ),
+              // leading: ,
+            ),
+          );
+        });
   }
 
 /************************************************************************* end 게시글 컴포넌트********************************************************************************** */
@@ -275,7 +249,7 @@ class _CommunityState extends State<Community> {
                   Text(title,
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
-                  _getIcon(_bestBoards)
+                  _getIcon2(_bestBoards)
                 ],
               ),
               SizedBox(
@@ -335,7 +309,54 @@ class _CommunityState extends State<Community> {
   }
 
 // 아이콘들 컨테이터
-  Widget _getIcon(dynamic data) {
+  Widget _getIcon(CommunityVO data) {
+    // 방문자 수
+    int? visite = data.bvisit;
+    // 좋아요 수
+    int? blike = data.blike;
+    // 댓글 수
+    int? comments = data.rec;
+
+    return Container(
+      child: Row(
+        children: [
+          Icon(
+            Icons.remove_red_eye_outlined,
+            size: 12.0,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(visite.toString()),
+          SizedBox(
+            width: 5,
+          ),
+          Icon(
+            Icons.favorite,
+            color: Colors.pink,
+            size: 12.0,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(blike.toString()),
+          SizedBox(
+            width: 5,
+          ),
+          Icon(
+            Icons.message,
+            size: 12.0,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(comments.toString())
+        ],
+      ),
+    );
+  }
+
+  Widget _getIcon2(dynamic data) {
     // 방문자 수
     String visite = data['BVISIT'].toString();
     // 좋아요 수
