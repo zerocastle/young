@@ -14,7 +14,7 @@ class CommunityController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     _load();
-    //_event();
+    _event();
     super.onInit();
   }
 
@@ -25,6 +25,7 @@ class CommunityController extends GetxController {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         print('reload');
+        _load();
       }
     });
   }

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/common/common_widget.dart';
 import 'package:my_app/data/network.dart';
+import 'package:my_app/model/CommunityVO.dart';
 
 class BoardInfo extends StatefulWidget {
   final User user;
-  final dynamic param;
+  final CommunityVO param;
 
   // final dynamic param;
-  const BoardInfo({Key? key, this.param, required this.user}) : super(key: key);
+  const BoardInfo({Key? key, required this.param, required this.user}) : super(key: key);
 
   @override
   _BoardInfoState createState() => _BoardInfoState();
@@ -386,7 +387,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
 // 댓글작성
   Future<void> _writeComment(String text) async {
-    var mid = widget.param['email'];
+    var mid = widget.param.mid;
     var bcd = _boarderInfoData['BCD'];
     var ccont = text;
 
@@ -446,7 +447,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
 /* *********************************************** 통신부분 *********************************************************************** */
 // 오더
-  Future<dynamic> boardInfoOrder(String order, dynamic param) async {
+  Future<dynamic> boardInfoOrder(String order, CommunityVO param) async {
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
     String url = "http://192.168.15.4:8181" + order;

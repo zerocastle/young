@@ -26,7 +26,7 @@ class _CommunityState extends State<Community> {
   // 베스트 게시글
   late Future<dynamic> _bestBoards;
 
-  final CommunityController controller = Get.put(CommunityController());
+  late CommunityController controller;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _CommunityState extends State<Community> {
     super.initState();
     // _boards = boardOrder('/board/getList');
     _bestBoards = boardOrder('/board/bestList');
-
+    controller  = Get.put(CommunityController());
     // print(_bestBoards.toString());
   }
 
@@ -124,7 +124,7 @@ class _CommunityState extends State<Community> {
           // 글 올린 날짜
           String? date = root.bdate;
           // 피드 시간
-          int? rec = root.rec;
+          String? rec = root.mt;
 
           return Card(
             child: ListTile(

@@ -20,7 +20,6 @@ class CommunityRepository extends GetConnect {
        print('==================== 좃댔다 ==============');
         print(response.body);
       if (response.body["items"] != null && response.body["items"].length > 0) {
-         print("==================== 여기까지는 옴?? ==============");
         return CommunityResult.fromJson(response.body);
       }else{
         return Future.error(response.statusText.toString());
