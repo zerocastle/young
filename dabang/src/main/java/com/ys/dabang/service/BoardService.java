@@ -16,28 +16,28 @@ public class BoardService {
 
 	private BoardMapper mapper;
 
-	// �Խñ� �ҷ�����
+	// "보더리스트"
 	public List<Map<String, Object>> getList(Map param) {
 
 		return mapper.getList(param);
 	}
 
-	// ����Ʈ �Խñ� �ҷ�����
+	// "베스트 글 리스트"
 	public List<Map<String, Object>> bestList() {
 		return mapper.bestList();
 	}
 
-	// �� �� ���� ������
+	// "게시글 상세 정보"
 	public List<Map<String, Object>> boardInfo(Map param) {
 		return mapper.boardInfo(param);
 	}
 
-	// ��� ������ ����
+	// "댓글 리스트"
 	public List<Map<String, Object>> repleInfo(Map param) {
 		return mapper.repleInfo(param);
 	};
 
-	// ��� �Է�
+	// "댓글 삭제"
 	public int repleInsert(Map param) {
 		return mapper.repleInsert(param);
 	}

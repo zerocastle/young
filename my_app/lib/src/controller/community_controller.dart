@@ -25,17 +25,17 @@ class CommunityController extends GetxController {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         print('reload');
-        _load();
+        //_load();
       }
     });
   }
 
-  void _load() async{
-    CommunityResult result = await CommunityRepository.to.loadData();
-    
-    if(result != null && result.items != null && result.items!.length > 0){
+  void _load() async {
+    CommunityResult result = await CommunityRepository.to
+        .loadData(communityResult.value.nextToken ?? 1);
+
+    if (result != null && result.items != null && result.items!.length > 0) {
       communityResult(result);
     }
-
   }
 }

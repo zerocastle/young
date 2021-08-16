@@ -11,20 +11,20 @@ class CommunityRepository extends GetConnect {
     super.onInit();
   }
 
-  Future<CommunityResult> loadData() async {
-    String url = "/board/getList";
+  Future<CommunityResult> loadData(int nextToken) async {
+    print('nextToken$nextToken');
+    String url = "/board/getList?nextToken=${nextToken.toString()}";
     final response = await get(url);
     if (response.status.hasError) {
       return Future.error(response.statusText.toString());
     } else {
-       print('==================== 좃댔다 ==============');
-        print(response.body);
+      print('==================== okok ==============');
+      print(response.body);
       if (response.body["items"] != null && response.body["items"].length > 0) {
         return CommunityResult.fromJson(response.body);
-      }else{
+      } else {
         return Future.error(response.statusText.toString());
       }
-     
     }
   }
 }
