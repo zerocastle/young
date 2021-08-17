@@ -39,8 +39,8 @@ public class BoardController {
 
 		param.put("START", param.get("start"));
 		param.put("END", param.get("end"));
-
 		List<Map<String, Object>> temp = service.getList(param);
+
 		List itemList = new ArrayList<>();
 		Map<String, Object> pageInfo = new HashMap<String, Object>();
 
@@ -50,9 +50,14 @@ public class BoardController {
 			itemList.add(temp.get(i));
 		}
 
+		int realEnd = (int) (Math.ceil(Integer.parseInt(temp.get(0).get("TOTAL_COUNT").toString()) / 10.0));
+		System.out.println("realEnd = > " + realEnd);
+
 		pageInfo.put("TOTAL_COUNT", temp.get(0).get("TOTAL_COUNT"));
 		pageInfo.put("NTEXT_TOKEN", param.get("nextToken"));
 		pageInfo.put("PER_PAGE", param.get("perPage"));
+		pageInfo.put("REAL_END", realEnd);
+
 		resultMap.put("pageInfo", pageInfo);
 		resultMap.put("items", itemList);
 

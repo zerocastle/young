@@ -20,7 +20,7 @@ public class PageInfoDTO {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		result.put("start", (this.nextToken * this.perPage) - (this.perPage - 1));
-		result.put("end", (this.perPage * this.perPage));
+		result.put("end", (this.nextToken * this.perPage));
 		result.put("nextToken", this.nextToken + 1);
 		result.put("perPage", this.perPage);
 

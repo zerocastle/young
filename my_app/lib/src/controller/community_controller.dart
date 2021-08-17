@@ -8,7 +8,7 @@ class CommunityController extends GetxController {
 
   ScrollController scrollController = ScrollController();
 
-  Rx<CommunityResult> communityResult = CommunityResult().obs;
+  Rx<CommunityResult> communityResult = CommunityResult(items: []).obs;
 
   @override
   void onInit() {
@@ -22,10 +22,14 @@ class CommunityController extends GetxController {
     scrollController.addListener(() {
       print(scrollController.position.maxScrollExtent);
 
+      //스크롤
+      var value = communityResult.value;
+      var realEnd = value.realEnd;
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        print('reload');
-        //_load();
+            // if(communityResult.value.nextToken! <= realEnd!){
+            _load();
+            // }
       }
     });
   }
@@ -35,7 +39,11 @@ class CommunityController extends GetxController {
         .loadData(communityResult.value.nextToken ?? 1);
 
     if (result != null && result.items != null && result.items!.length > 0) {
-      communityResult(result);
+      communityResult.update((item) {
+        var items2 = result.items;
+        item!.nextToken = result.nextToken;
+        item.items!.addAll(items2!);
+      });
     }
   }
 }
