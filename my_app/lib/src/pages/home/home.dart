@@ -32,7 +32,8 @@ class _HomeState extends State<Home> {
 
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
-    String url = "http://192.168.15.4:8181/member/getList";
+    // String url = "http://192.168.15.4:8181/member/getList";
+      String url = "http://192.168.219.107:8080/member/getList";
     Network network = await Network(url);
     var data = await network.getJsonData();
     print(data);
