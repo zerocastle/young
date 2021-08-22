@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/root_page.dart';
+// import 'package:my_app/src/widgets/signArmy/DateChoice.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(title: '군다방'),
       home: RootPage(),
+      // home: DateChoice(),
     );
   }
   
