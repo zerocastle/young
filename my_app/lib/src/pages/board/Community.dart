@@ -34,7 +34,7 @@ class _CommunityState extends State<Community> {
     super.initState();
     // _boards = boardOrder('/board/getList');
     _bestBoards = boardOrder('/board/bestList');
-    controller  = Get.put(CommunityController());
+    controller = Get.put(CommunityController());
     // print(_bestBoards.toString());
   }
 
@@ -90,7 +90,9 @@ class _CommunityState extends State<Community> {
                   ],
                 ),
               ),
-              getDataList()
+              controller.communityResult.value == null
+                  ? _indecate()
+                  : getDataList()
             ],
           ),
         ),
@@ -133,7 +135,7 @@ class _CommunityState extends State<Community> {
                 Get.to(BoardInfo(param: root, user: widget.user),
                     transition: Transition.zoom);
               },
-              title: Column( 
+              title: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -401,6 +403,17 @@ class _CommunityState extends State<Community> {
         ],
       ),
     );
+  }
+
+  Widget _indecate() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(),
+      ],
+    ));
   }
 
 /************************************************************************* end 베스트 컴포넌트********************************************************************************** */
