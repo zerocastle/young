@@ -133,7 +133,7 @@ class _CommunityState extends State<Community> {
                 Get.to(BoardInfo(param: root, user: widget.user),
                     transition: Transition.zoom);
               },
-              title: Column(
+              title: Column( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
