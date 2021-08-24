@@ -90,9 +90,7 @@ class _CommunityState extends State<Community> {
                   ],
                 ),
               ),
-              controller.communityResult.value == null
-                  ? _indecate()
-                  : getDataList()
+              getDataList()
             ],
           ),
         ),
@@ -102,16 +100,32 @@ class _CommunityState extends State<Community> {
 
   /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
 
+  int _hasMore() {
+    // ignore: unrelated_type_equality_checks
+    if (controller.hasMore == true) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
 // 게시글 뿌려주는곳
   Widget getDataList() {
     return ListView.builder(
         primary: false,
         shrinkWrap: true,
         padding: const EdgeInsets.all(8),
-        itemCount: controller.communityResult.value.items == null
-            ? 0
-            : controller.communityResult.value.items!.length,
+        itemCount: controller.communityResult.value.items!.length + _hasMore(),
         itemBuilder: (context, index) {
+          // ignore: unrelated_type_equality_checks
+          if (index == controller.communityResult.value.items!.length) {
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: CircularProgressIndicator(),
+            ));
+          }
+
           CommunityVO root =
               controller.communityResult.value.items?[index] as CommunityVO;
           // 타이틀
