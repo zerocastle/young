@@ -28,6 +28,7 @@ class CommunityController extends GetxController {
   void dispose() {
     // TODO: implement dispose
     scrollController.dispose();
+    print('사라짐??');
     super.dispose();
   }
 

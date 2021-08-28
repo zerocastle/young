@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/MyHomePage.dart';
 import 'package:my_app/loading_page.dart';
 import 'package:my_app/login_app/login.dart';
+import 'package:my_app/src/repository/common_repository.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -24,6 +25,7 @@ class RootPage extends StatelessWidget {
           }else{
             if(snapshot.hasData){
               //print(snapshot.data);
+              commonRepository().setCommonUser(snapshot.data);
               return MyHomePage(user : snapshot.data);
             }else{
               return LogIn();

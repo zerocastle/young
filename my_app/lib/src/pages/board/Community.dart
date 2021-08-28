@@ -34,7 +34,8 @@ class _CommunityState extends State<Community> {
     super.initState();
     // _boards = boardOrder('/board/getList');
     _bestBoards = boardOrder('/board/bestList');
-    controller = Get.put(CommunityController());
+    controller = Get.put(CommunityController()
+    );
     // print(_bestBoards.toString());
   }
 
@@ -146,8 +147,14 @@ class _CommunityState extends State<Community> {
             child: ListTile(
               leading: image,
               onTap: () {
-                Get.to(BoardInfo(param: root, user: widget.user),
-                    transition: Transition.zoom);
+                // Get.to(BoardInfo(param: root, user: widget.user),
+                //     transition: Transition.zoom);
+                var temp = controller.communityResult.value.items![index];
+                var bcd = temp.bcd;
+                var mid = temp.mid;
+                print(bcd);
+                Get.toNamed('/boardInfo/$bcd/$mid');
+                
               },
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,7 +207,7 @@ class _CommunityState extends State<Community> {
     return FutureBuilder(
       future: _bestBoards,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        print(snapshot.data.toString());
+        //print(snapshot.data.toString());
         // return Text(snapshot.data.toString());
         if (!snapshot.hasData)
           return Center(

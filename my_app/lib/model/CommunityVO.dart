@@ -9,6 +9,9 @@ class CommunityVO {
   String? mid;
   int? blike;
 
+  String? classnm;
+  String? mpoint;
+
   CommunityVO({
     this.bdate,
     this.rec,
@@ -19,6 +22,9 @@ class CommunityVO {
     this.mt,
     this.mid,
     this.blike,
+
+    this.classnm,
+    this.mpoint
   });
 
   factory CommunityVO.fromJson(Map<String, dynamic> json) => CommunityVO(
@@ -31,6 +37,9 @@ class CommunityVO {
         mt: json["MT"],
         mid: json["MID"],
         blike: json["BLIKE"],
+
+        classnm: json["CLASSNM"],
+        mpoint: json["MPOINT"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +52,8 @@ class CommunityVO {
         "MT": mt,
         "MID": mid,
         "BLIKE": blike,
+
+        "CLASSNM" : classnm,
+        "MPOINT" : mpoint
       };
 }

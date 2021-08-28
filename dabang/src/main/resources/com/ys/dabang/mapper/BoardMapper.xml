@@ -81,7 +81,14 @@
 	
 	<!-- 상세정보 -->
 	<select id="boardInfo" parameterType="hashMap" resultType="hashMap">
-       		SELECT a.*,TO_CHAR(a.bdate , 'yyyy-mm-dd') as BDATE2 ,b.*
+       		SELECT a.bcd
+       			  ,a.btitle
+       			  ,a.bcont
+       			  ,TO_CHAR(a.bdate , 'yyyy-mm-dd') as BDATE
+       			  ,a.blike
+       			  ,a.bvisit
+       			  ,a.mid
+       			  ,b.*
        FROM BOARD a , (SELECT *
                        FROM MEMBERCLASS
                        WHERE 1 = 1
