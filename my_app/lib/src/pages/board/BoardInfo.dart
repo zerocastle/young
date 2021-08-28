@@ -185,7 +185,7 @@ class _BoardInfoState extends State<BoardInfo> {
                             SizedBox(
                               height: 5.0,
                             ),
-                            // Text(bdate!)
+                            Text(bdate!)
                           ]))
                     ],
                   ),
@@ -205,7 +205,7 @@ class _BoardInfoState extends State<BoardInfo> {
                 SizedBox(
                   height: 30.0,
                 ),
-                // _getIcon(snapshot.data),
+                 _getIcon(vo),
               ],
             ),
             decoration: BoxDecoration(
@@ -281,11 +281,11 @@ class _BoardInfoState extends State<BoardInfo> {
 /* *************************************** end 댓글 리스트 ***************************************** */
 
 // 아이콘들 컨테이터
-  Widget _getIcon(dynamic data) {
-    // // 방문자 수
-    // String visite = data['bvisit'].toString();
-    // // 좋아요 수
-    // String blike = data['blike'].toString();
+  Widget _getIcon(CommunityVO data) {
+    // 방문자 수
+    int? visite = data.bvisit;
+    // 좋아요 수
+    int? blike = data.blike;
     const _padding = EdgeInsets.fromLTRB(15.0, 2.0, 10.0, 0.0);
 
     return Container(
@@ -299,7 +299,7 @@ class _BoardInfoState extends State<BoardInfo> {
           SizedBox(
             width: 5,
           ),
-          Text('test'),
+          Text(visite.toString()),
           SizedBox(
             width: 5,
           ),
@@ -311,7 +311,7 @@ class _BoardInfoState extends State<BoardInfo> {
           SizedBox(
             width: 5,
           ),
-          Text('test'),
+          Text(blike.toString()),
         ],
       ),
     );
