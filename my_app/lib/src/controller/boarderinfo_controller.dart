@@ -10,7 +10,7 @@ class BoarderinfoController extends GetxController {
   Rx<CommunityVO> boardInfo = CommunityVO().obs;
   
   // 댓글정보
-  // RxList<RepleVo>? repleInfo = [].obs as RxList<RepleVo>?;
+  Rx<RepleVo> repleVoList = RepleVo(items: []).obs;
 
   @override
   void onInit() {
@@ -42,13 +42,11 @@ class BoarderinfoController extends GetxController {
 
   void _getRepleInfo(dynamic param) async{
     RepleVo result = await CommunityRepository.to.getRepleInfo(param);
-    // if(result != null){
-    //   repleInfo.addAll(result);
-    // }
-    // repleInfo!.addAll(result);
-
-    
-
+    if(result != null && result.items!.length != null && result.items!.length > 0){
+      repleVoList.update((item) {
+        item!.items!.assignAll(result.items!);
+       });
+    }
   }
 
   

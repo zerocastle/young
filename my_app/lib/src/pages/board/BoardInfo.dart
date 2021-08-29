@@ -72,8 +72,8 @@ class _BoardInfoState extends State<BoardInfo> {
                     child: Column(
                       children: <Widget>[
                         _getInfoComp(),
-                        // _repleForm(widget.param, _boarderInfo),
-                        // _count(_repleInfo)
+                        _repleForm(),
+                        _count(),
                       ],
                     ),
                   ),
@@ -319,7 +319,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
 /* *************************************** start 댓글 컴포넌트 ***************************************** */
 
-  Widget _repleForm(param, Future boarderInfo) {
+  Widget _repleForm() {
     OutlineInputBorder _border =
         OutlineInputBorder(borderRadius: BorderRadius.circular(8));
 
@@ -394,19 +394,7 @@ class _BoardInfoState extends State<BoardInfo> {
   }
 
   // 댓글수 표현
-  FutureBuilder _count(Future repleInfo) {
-    return FutureBuilder(
-        future: repleInfo,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData)
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ));
-
+  Widget _count() {
           return Container(
             margin: EdgeInsets.only(top: 7.0),
             padding: EdgeInsets.all(5.0),
@@ -418,7 +406,7 @@ class _BoardInfoState extends State<BoardInfo> {
                       color: Colors.blue[50],
                       child: Column(
                         children: <Widget>[
-                          Text('댓글 수 : ${snapshot.data.length}')
+                          Text('댓글 수 : ${BoarderinfoController.to.repleVoList.value.items!.length}')
                         ],
                       ))
                 ]),
@@ -434,7 +422,6 @@ class _BoardInfoState extends State<BoardInfo> {
                   )
                 ]),
           );
-        });
   }
 
 /* *************************************** end 댓글 컴포넌트 ***************************************** */
