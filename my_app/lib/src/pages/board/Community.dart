@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/data/network.dart';
@@ -34,8 +35,7 @@ class _CommunityState extends State<Community> {
     super.initState();
     // _boards = boardOrder('/board/getList');
     _bestBoards = boardOrder('/board/bestList');
-    controller = Get.put(CommunityController()
-    );
+    controller = Get.put(CommunityController());
     // print(_bestBoards.toString());
   }
 
@@ -96,6 +96,37 @@ class _CommunityState extends State<Community> {
           ),
         ),
       )),
+
+      //  floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.greenAccent,
+      //   child: Icon(Icons.create),
+      //   onPressed: (){
+      //     Get.toNamed("/boardWrite");
+      //   },
+      // ),
+      floatingActionButton: SpeedDial(
+          icon: Icons.plus_one,
+          backgroundColor: Colors.blueAccent,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.create),
+              label: '신규작성',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {Get.toNamed("/boardWrite");},
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.refresh),
+              label: '세로고침',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {/* Do something */},
+            ),
+            // SpeedDialChild(
+            //   child: Icon(Icons.chat),
+            //   label: 'Message',
+            //   backgroundColor: Colors.amberAccent,
+            //   onTap: () {/* Do something */},
+            // ),
+          ]),
     );
   }
 
@@ -154,7 +185,6 @@ class _CommunityState extends State<Community> {
                 var mid = temp.mid;
                 print(bcd);
                 Get.toNamed('/boardInfo/$bcd/$mid');
-                
               },
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

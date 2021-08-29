@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_app/common/common_widget.dart';
 import 'package:my_app/data/network.dart';
 import 'package:my_app/model/CommunityVO.dart';
+import 'package:my_app/model/repleVo.dart';
 import 'package:my_app/src/controller/boarderinfo_controller.dart';
 
 class BoardInfo extends StatefulWidget {
@@ -231,13 +232,23 @@ class _BoardInfoState extends State<BoardInfo> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
+          
+          RepleVo vo = BoarderinfoController.to.repleVoList.value.items![index];
+
           return Container(
             margin: EdgeInsets.only(top: 7.0),
             padding: const EdgeInsets.all(8.0),
             child: Column(children: <Widget>[
               ListTile(
-                leading: Text(BoarderinfoController.to.repleVoList.value.items![index].toString()),
-              ),
+                leading: image,
+                onTap: (){},
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('hellow')
+                  ],)
+                ) ,
             ]),
             decoration: BoxDecoration(
                 color: Colors.white,
