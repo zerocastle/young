@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
 import 'package:my_app/model/CommunityVO.dart';
+import 'package:my_app/model/repleVo.dart';
 import 'package:my_app/src/repository/community_repository.dart';
 
 class BoarderinfoController extends GetxController {
   static BoarderinfoController get to => Get.find();
 
+  // 보더 인포
   Rx<CommunityVO> boardInfo = CommunityVO().obs;
+  
+  // 댓글정보
+  // RxList<RepleVo>? repleInfo = [].obs as RxList<RepleVo>?;
 
   @override
   void onInit() {
@@ -18,15 +23,33 @@ class BoarderinfoController extends GetxController {
       'mid' :Get.parameters['mid']
     };
 
-    this._getBoardInfo(param);
+    this._getBoarderInfoBoss(param);
 
     super.onInit();
   }
 
-  void _getBoardInfo(dynamic param) async{
+  void _getBoarderInfoBoss(dynamic param) async{
+    this._getBoardInfo(param).then((value) => _getRepleInfo(param));
+  }
+
+  Future<CommunityVO> _getBoardInfo(dynamic param) async{
     CommunityVO result = await CommunityRepository.to.getBoardInfo(param);
     if(result != null){
     boardInfo(result);
     }
+    return result;
   }
+
+  void _getRepleInfo(dynamic param) async{
+    RepleVo result = await CommunityRepository.to.getRepleInfo(param);
+    // if(result != null){
+    //   repleInfo.addAll(result);
+    // }
+    // repleInfo!.addAll(result);
+
+    
+
+  }
+
+  
 }

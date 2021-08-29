@@ -87,9 +87,12 @@ public class BoardController {
 	// 댓글 리스트
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInfo")
-	public List<Map<String, Object>> repleInfo(@RequestBody Map param) throws Exception {
-		List<Map<String, Object>> resultData = service.repleInfo(param);
-		return resultData;
+	public Map<String, Object> repleInfo(@RequestBody Map param) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println("whatther = > " + param.get("bcd"));
+		resultMap.put("items", service.repleInfo(param));
+
+		return resultMap;
 	}
 
 	// 댓글 입력
