@@ -24,7 +24,7 @@ public interface BoardMapper {
 	public List<Map<String, Object>> bestList();
 
 	// 게시글 정보 들고오기
-	public List<Map<String, Object>> boardInfo(Map param);
+	public Map<String, Object> boardInfo(Map param);
 
 	// 댓글 정보 들고오기
 	public List<Map<String, Object>> repleInfo(Map param);

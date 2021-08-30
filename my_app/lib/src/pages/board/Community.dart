@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/data/network.dart';
@@ -90,17 +91,55 @@ class _CommunityState extends State<Community> {
                   ],
                 ),
               ),
-              controller.communityResult.value == null
-                  ? _indecate()
-                  : getDataList()
+              getDataList()
             ],
           ),
         ),
       )),
+
+      //  floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.greenAccent,
+      //   child: Icon(Icons.create),
+      //   onPressed: (){
+      //     Get.toNamed("/boardWrite");
+      //   },
+      // ),
+      floatingActionButton: SpeedDial(
+          icon: Icons.plus_one,
+          backgroundColor: Colors.blueAccent,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.create),
+              label: '신규작성',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {Get.toNamed("/boardWrite");},
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.refresh),
+              label: '세로고침',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {/* Do something */},
+            ),
+            // SpeedDialChild(
+            //   child: Icon(Icons.chat),
+            //   label: 'Message',
+            //   backgroundColor: Colors.amberAccent,
+            //   onTap: () {/* Do something */},
+            // ),
+          ]),
     );
   }
 
   /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
+
+  int _hasMore() {
+    // ignore: unrelated_type_equality_checks
+    if (controller.hasMore == true) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 
 // 게시글 뿌려주는곳
   Widget getDataList() {
@@ -108,10 +147,17 @@ class _CommunityState extends State<Community> {
         primary: false,
         shrinkWrap: true,
         padding: const EdgeInsets.all(8),
-        itemCount: controller.communityResult.value.items == null
-            ? 0
-            : controller.communityResult.value.items!.length,
+        itemCount: controller.communityResult.value.items!.length + _hasMore(),
         itemBuilder: (context, index) {
+          // ignore: unrelated_type_equality_checks
+          if (index == controller.communityResult.value.items!.length) {
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: CircularProgressIndicator(),
+            ));
+          }
+
           CommunityVO root =
               controller.communityResult.value.items?[index] as CommunityVO;
           // 타이틀
@@ -132,8 +178,13 @@ class _CommunityState extends State<Community> {
             child: ListTile(
               leading: image,
               onTap: () {
-                Get.to(BoardInfo(param: root, user: widget.user),
-                    transition: Transition.zoom);
+                // Get.to(BoardInfo(param: root, user: widget.user),
+                //     transition: Transition.zoom);
+                var temp = controller.communityResult.value.items![index];
+                var bcd = temp.bcd;
+                var mid = temp.mid;
+                print(bcd);
+                Get.toNamed('/boardInfo/$bcd/$mid');
               },
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,7 +237,7 @@ class _CommunityState extends State<Community> {
     return FutureBuilder(
       future: _bestBoards,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        print(snapshot.data.toString());
+        //print(snapshot.data.toString());
         // return Text(snapshot.data.toString());
         if (!snapshot.hasData)
           return Center(

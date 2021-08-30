@@ -24,6 +24,14 @@ class CommunityController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scrollController.dispose();
+    print('사라짐??');
+    super.dispose();
+  }
+
   void _event() {
     scrollController.addListener(() {
       print(scrollController.position.maxScrollExtent);
@@ -35,7 +43,12 @@ class CommunityController extends GetxController {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         if (nextTokenTemp <= realEnd) {
+          loading(true);
           _load();
+        }else{
+          //마지막 페이지
+          hasMore(false);
+          print('hasMore = > $hasMore');
         }
       }
     });
@@ -51,6 +64,7 @@ class CommunityController extends GetxController {
         item!.nextToken = result.nextToken;
         item.realEnd = result.realEnd;
         item.items!.addAll(items2!);
+        loading(false);
       });
     }
   }

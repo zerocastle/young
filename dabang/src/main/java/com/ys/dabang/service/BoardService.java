@@ -28,7 +28,7 @@ public class BoardService {
 	}
 
 	// "게시글 상세 정보"
-	public List<Map<String, Object>> boardInfo(Map param) {
+	public Map<String, Object> boardInfo(Map param) {
 		return mapper.boardInfo(param);
 	}
 

@@ -78,17 +78,21 @@ public class BoardController {
 	// 게시글 정보
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/boardInfo")
-	public List<Map<String, Object>> boardInfo(@RequestBody Map param) throws Exception {
-		List<Map<String, Object>> resultData = service.boardInfo(param);
-		return resultData;
+	public Map<String, Object> boardInfo(@RequestBody Map param) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		resultMap.put("boardInfo", service.boardInfo(param));
+		return service.boardInfo(param);
 	}
 
 	// 댓글 리스트
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInfo")
-	public List<Map<String, Object>> repleInfo(@RequestBody Map param) throws Exception {
-		List<Map<String, Object>> resultData = service.repleInfo(param);
-		return resultData;
+	public Map<String, Object> repleInfo(@RequestBody Map param) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println("whatther = > " + param.get("bcd"));
+		resultMap.put("items", service.repleInfo(param));
+
+		return resultMap;
 	}
 
 	// 댓글 입력
