@@ -10,6 +10,12 @@ class CommunityController extends GetxController {
 
   Rx<CommunityResult> communityResult = CommunityResult(items: []).obs;
 
+  // 로딩
+  RxBool loading = false.obs;
+  
+  // 아이템이 더 있는지
+  RxBool hasMore = true.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -24,12 +30,13 @@ class CommunityController extends GetxController {
 
       //스크롤
       var value = communityResult.value;
-      var realEnd = value.realEnd;
+      var realEnd = value.realEnd ?? 0;
+      var nextTokenTemp = value.nextToken ?? 0;
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-            // if(communityResult.value.nextToken! <= realEnd!){
-            _load();
-            // }
+        if (nextTokenTemp <= realEnd) {
+          _load();
+        }
       }
     });
   }
@@ -42,6 +49,7 @@ class CommunityController extends GetxController {
       communityResult.update((item) {
         var items2 = result.items;
         item!.nextToken = result.nextToken;
+        item.realEnd = result.realEnd;
         item.items!.addAll(items2!);
       });
     }
