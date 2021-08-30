@@ -64,6 +64,11 @@ dependencies:
   #datetime_picker
   scroll_date_picker: ^2.0.5
   kakao_flutter_sdk: ^0.7.1
+  dio: ^4.0.0
+  json_annotation: ^4.1.0
+  platform: ^3.0.2
+  package_info: ^2.0.2
+  flutter_naver_login: ^1.2.2
 dev_dependencies:
   
   flutter_test:

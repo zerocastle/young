@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/MyHomePage.dart';
 import 'package:my_app/loading_page.dart';
 import 'package:my_app/login_app/login.dart';
+import 'package:my_app/login_app/kakaoLogin.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -27,6 +28,7 @@ class RootPage extends StatelessWidget {
               return MyHomePage(user : snapshot.data);
             }else{
               return LogIn();
+              // return LoginScreen();
             }
           }
         });
