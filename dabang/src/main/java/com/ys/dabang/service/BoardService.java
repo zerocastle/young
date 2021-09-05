@@ -37,7 +37,7 @@ public class BoardService {
 		return mapper.repleInfo(param);
 	};
 
-	// "댓글 삭제"
+	// "댓글 입력"
 	public int repleInsert(Map param) {
 		return mapper.repleInsert(param);
 	}

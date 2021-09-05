@@ -7,6 +7,8 @@ import 'package:my_app/data/network.dart';
 import 'package:my_app/model/CommunityVO.dart';
 import 'package:my_app/model/repleVo.dart';
 import 'package:my_app/src/controller/boarderinfo_controller.dart';
+import 'package:my_app/src/controller/common_controller.dart';
+import 'package:my_app/src/repository/common_repository.dart';
 
 class BoardInfo extends StatefulWidget {
   final User? user;
@@ -20,32 +22,12 @@ class BoardInfo extends StatefulWidget {
 }
 
 class _BoardInfoState extends State<BoardInfo> {
-  late Future<dynamic> _boarderInfo;
-  late Future<dynamic> _repleInfo;
-
-  late dynamic _boarderInfoData;
 
   late String state = "";
 
   bool countSignal = true;
 
   CommonWidget _common = CommonWidget();
-
-  // late BoarderinfoController _controller;
-
-  @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   init();
-  //   print(_repleInfo.toString());
-  // }
-
-  Future init() async {
-    // _boarderInfo = boardInfoOrder('/board/boardInfo', widget.param!);
-    // _repleInfo = boardInfoOrder('/board/repleInfo', widget.param!);
-    // _controller =  Get.put(BoarderinfoController());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +52,17 @@ class _BoardInfoState extends State<BoardInfo> {
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: <Widget>[
                             _getInfoComp(),
-                            _repleForm(),
+                            SizedBox(height: 25,),
+                            Divider(
+                                color: Colors.grey[300],
+                                thickness: 2.0,
+                            ),
                             _count(),
+                            _repleForm(),
                           ],
                         ),
                       ),
@@ -125,7 +112,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
     return Container(
       margin: EdgeInsets.only(top: 7.0),
-      padding: EdgeInsets.all(5.0),
+      // padding: EdgeInsets.all(5.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +134,7 @@ class _BoardInfoState extends State<BoardInfo> {
                   child: Container(
                     child: Chip(
                       label: Icon(
-                        Icons.share,
+                        Icons.shuffle,
                         size: 24,
                       ),
                     ),
@@ -179,7 +166,7 @@ class _BoardInfoState extends State<BoardInfo> {
                       Text(
                         '$mid 님 |  $classnm',
                         style: TextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.w700),
+                            fontSize: 16.0, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                         height: 5.0,
@@ -209,15 +196,16 @@ class _BoardInfoState extends State<BoardInfo> {
       ),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 4,
-              offset: Offset(0, 3),
-            )
-          ]),
+          // borderRadius: BorderRadius.all(Radius.circular(10)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 3,
+          //     blurRadius: 4,
+          //     offset: Offset(0, 3),
+          //   )
+          // ]
+          ),
     );
   }
 
@@ -246,21 +234,32 @@ class _BoardInfoState extends State<BoardInfo> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('hellow')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('닉네임', 
+                          style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                        ),
+                        Text('${vo.cdate}'),
+                      ],
+                      ),
+                    Text('${vo.ccont}')
                   ],)
                 ) ,
             ]),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 4,
-                    offset: Offset(0, 3),
-                  )
-                ]),
+                // borderRadius: BorderRadius.all(Radius.circular(10)),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.grey.withOpacity(0.5),
+                //     spreadRadius: 3,
+                //     blurRadius: 4,
+                //     offset: Offset(0, 3),
+                //   )
+                // ]
+                ),
           );
         },
         childCount: BoarderinfoController.to.repleVoList.value.items!.length,
@@ -311,7 +310,7 @@ class _BoardInfoState extends State<BoardInfo> {
 
   Widget _repleForm() {
     OutlineInputBorder _border =
-        OutlineInputBorder(borderRadius: BorderRadius.circular(8));
+        OutlineInputBorder(borderRadius: BorderRadius.circular(16));
 
     // 텍스트 필드와 연결 해야한다.
     TextEditingController _commentController = TextEditingController();
@@ -324,7 +323,7 @@ class _BoardInfoState extends State<BoardInfo> {
     GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(13.0, 5.0, 13.0, 5.0),
       margin: EdgeInsets.only(top: 10.0),
       child: Row(
         children: <Widget>[
@@ -338,71 +337,118 @@ class _BoardInfoState extends State<BoardInfo> {
                 _commentController.text = '';
               },
               decoration: InputDecoration(
-                  labelText: '댓글을 입력 해 주세요',
-                  border: _border,
-                  filled: true,
-                  enabledBorder: _border,
-                  focusedBorder: _border),
+                  labelText:' 게시글에 댓글을 입력해보세요.',
+                  border: InputBorder.none,
+                  // filled: true,
+                  // enabledBorder: _border,
+                  // focusedBorder: _border
+                  ),
               keyboardType: TextInputType.text,
               // obscureText: true,
             ),
           ),
           Container(
-              child: IconButton(
-                  onPressed: () {
-                    _handleSubmitted(_commentController.text);
-                  },
-                  icon: Icon(Icons.send)))
+              child: 
+              // IconButton(
+              //     onPressed: () {
+              //       _handleSubmitted(_commentController.text);
+              //     },
+              //     icon: Icon(Icons.send))
+                   ElevatedButton(
+                            onPressed: () => { _handleSubmitted(_commentController.text)}, 
+                            child: Text('등록', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[600]),),
+                            style: ElevatedButton.styleFrom(
+                            // fixedSize: Size.fromHeight(50),
+                            elevation: 0.0,
+                            primary: Colors.white,
+                            onPrimary: Colors.black,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                                // side: BorderSide(color: Colors.grey)
+                            ),
+                  
+                      ),
+                            ),
+                  )
         ],
       ),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 4,
-              offset: Offset(0, 3),
-            )
-          ]),
+          // borderRadius: BorderRadius.all(Radius.circular(10)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 3,
+          //     blurRadius: 4,
+          //     offset: Offset(0, 3),
+          //   )
+          // ]
+          ),
     );
   }
 
 // 댓글작성
   Future<void> _writeComment(String text) async {
+ 
+    print('텍스트 = > $text');
+    print(CommonController.to.user.email);
+    print('보더 번호 => ${BoarderinfoController.to.boardInfo.value.bcd}');
+
+    dynamic param = {
+      'bcd' : BoarderinfoController.to.boardInfo.value.bcd.toString(),
+      'mid' : CommonController.to.user.email,
+      'ccont' : text
+    };
     
+    // 댓글 호출
+    String signal = await BoarderinfoController.to.insertReple(param);
+
+    if(signal == 'success'){
+      // 댓글 정보들 호출
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      currentFocus.unfocus();
+    }else{
+      print('에러발생..');
+      
+    }
+    BoarderinfoController.to.getRepleInfo(param);
+
+   
   }
 
   // 댓글수 표현
   Widget _count() {
     return Container(
       margin: EdgeInsets.only(top: 7.0),
-      padding: EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(10.0),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-                color: Colors.blue[50],
+                // color: Colors.blue[50],
                 child: Column(
                   children: <Widget>[
                     Text(
-                        '댓글 수 : ${BoarderinfoController.to.repleVoList.value.items!.length}')
+                        '댓글 ${BoarderinfoController.to.repleVoList.value.items!.length}개',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 16
+                        ),)
                   ],
                 ))
           ]),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 4,
-              offset: Offset(0, 3),
-            )
-          ]),
+          // borderRadius: BorderRadius.all(Radius.circular(10)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.5),
+          //     spreadRadius: 3,
+          //     blurRadius: 4,
+          //     offset: Offset(0, 3),
+          //   )
+          // ]
+          ),
     );
   }
 

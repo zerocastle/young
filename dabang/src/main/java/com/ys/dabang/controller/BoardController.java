@@ -99,6 +99,8 @@ public class BoardController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/repleInsert")
 	public Map repleInsert(@RequestBody Map param) throws Exception {
+		
+		System.out.println("param = > " + param);
 
 		int count = service.repleInsert(param);
 

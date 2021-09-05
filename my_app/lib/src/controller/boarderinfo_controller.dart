@@ -29,10 +29,10 @@ class BoarderinfoController extends GetxController {
   }
 
   void _getBoarderInfoBoss(dynamic param) async{
-    this._getBoardInfo(param).then((value) => _getRepleInfo(param));
+    this.getBoardInfo(param).then((value) => getRepleInfo(param));
   }
 
-  Future<CommunityVO> _getBoardInfo(dynamic param) async{
+  Future<CommunityVO> getBoardInfo(dynamic param) async{
     CommunityVO result = await CommunityRepository.to.getBoardInfo(param);
     if(result != null){
     boardInfo(result);
@@ -40,13 +40,19 @@ class BoarderinfoController extends GetxController {
     return result;
   }
 
-  void _getRepleInfo(dynamic param) async{
+  void getRepleInfo(dynamic param) async{
     RepleVo result = await CommunityRepository.to.getRepleInfo(param);
     if(result != null && result.items!.length != null && result.items!.length > 0){
       repleVoList.update((item) {
         item!.items!.assignAll(result.items!);
        });
     }
+  }
+
+  // 댓글입력
+  Future<String> insertReple(dynamic param) async{
+    String signal = await CommunityRepository.to.insertReple(param);
+    return signal;
   }
 
   
