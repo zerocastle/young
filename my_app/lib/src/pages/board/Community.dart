@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+
 import 'package:my_app/data/network.dart';
-import 'package:my_app/model/CommunityResult.dart';
+
 import 'package:my_app/model/CommunityVO.dart';
 import 'package:my_app/src/controller/community_controller.dart';
-import 'package:my_app/src/pages/board/BoardInfo.dart';
 
 class Community extends StatefulWidget {
   final User user;
@@ -112,7 +111,9 @@ class _CommunityState extends State<Community> {
               child: Icon(Icons.create),
               label: '신규작성',
               backgroundColor: Colors.greenAccent,
-              onTap: () {Get.toNamed("/boardWrite");},
+              onTap: () {
+                Get.toNamed("/boardWrite");
+              },
             ),
             SpeedDialChild(
               child: Icon(Icons.refresh),
