@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/model/ShopVO.dart';
 import 'package:my_app/src/controller/shopping_controller.dart';
 import 'package:get/get.dart';
@@ -155,7 +157,52 @@ class _ShoppingState extends State<Shopping> {
             // Text('쇼핑아라네'),
             ),
       ),
+
+      floatingActionButton: SpeedDial(
+          icon: Icons.plus_one,
+          backgroundColor: Colors.blueAccent,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.create),
+              label: '신규작성',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {
+                Get.toNamed("/boardWrite");
+              },
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.refresh),
+              label: '세로고침',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {/* Do something */},
+            ),
+            // SpeedDialChild(
+            //   child: Icon(Icons.chat),
+            //   label: 'Message',
+            //   backgroundColor: Colors.amberAccent,
+            //   onTap: () {/* Do something */},
+            // ),
+          ]),
     );
+  }
+
+  /************************************************************************* start 베스트 컴포넌트********************************************************************************** */
+
+  int _hasMore() {
+    // ignore: unrelated_type_equality_checks
+    if (controller.hasMore == true) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  String _changeFormat(data){
+    print('data $data');
+   var f = NumberFormat.currency(locale: "ko_KR", symbol: "￦");
+   var result = f.format(data);
+   print('변환 result');
+   return result;
   }
 
   Widget _getInfoShop() {
@@ -166,6 +213,14 @@ class _ShoppingState extends State<Shopping> {
         delegate: SliverChildBuilderDelegate(
       (context, index) {
         ShopVO vo = controller.shopResult.value.items![index];
+        // ignore: unrelated_type_equality_checks
+        if (index == controller.shopResult.value.items!.length) {
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: CircularProgressIndicator(),
+          ));
+        }
 
         return Container(
           child: Column(
@@ -189,7 +244,7 @@ class _ShoppingState extends State<Shopping> {
                           child: Container(color: Colors.grey[300]),
                         ),
                       ),
-                      Text('25,000',
+                      Text(NumberFormat.currency(locale: "ko_KR", symbol: "￦" , decimalDigits: 0).format(int.parse(vo.price!)),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
@@ -292,7 +347,8 @@ class _ShoppingState extends State<Shopping> {
           ),
         );
       },
-      childCount: controller.shopResult.value.items!.length,
+      
+      childCount: (controller.shopResult.value.items!.length/2).ceil() ,
     ));
   }
 }
