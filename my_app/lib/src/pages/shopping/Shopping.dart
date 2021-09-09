@@ -157,7 +157,6 @@ class _ShoppingState extends State<Shopping> {
             // Text('쇼핑아라네'),
             ),
       ),
-
       floatingActionButton: SpeedDial(
           icon: Icons.plus_one,
           backgroundColor: Colors.blueAccent,
@@ -197,14 +196,6 @@ class _ShoppingState extends State<Shopping> {
     }
   }
 
-  String _changeFormat(data){
-    print('data $data');
-   var f = NumberFormat.currency(locale: "ko_KR", symbol: "￦");
-   var result = f.format(data);
-   print('변환 result');
-   return result;
-  }
-
   Widget _getInfoShop() {
     var size = MediaQuery.of(context).size;
     final double itemHeight = 350.0;
@@ -213,6 +204,7 @@ class _ShoppingState extends State<Shopping> {
         delegate: SliverChildBuilderDelegate(
       (context, index) {
         ShopVO vo = controller.shopResult.value.items![index];
+        ShopVO nextVO = controller.shopResult.value.items![index + 1];
         // ignore: unrelated_type_equality_checks
         if (index == controller.shopResult.value.items!.length) {
           return Center(
@@ -244,7 +236,12 @@ class _ShoppingState extends State<Shopping> {
                           child: Container(color: Colors.grey[300]),
                         ),
                       ),
-                      Text(NumberFormat.currency(locale: "ko_KR", symbol: "￦" , decimalDigits: 0).format(int.parse(vo.price!)),
+                      Text(
+                          NumberFormat.currency(
+                                  locale: "ko_KR",
+                                  symbol: "￦",
+                                  decimalDigits: 0)
+                              .format(int.parse(vo.price!)),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
@@ -257,11 +254,13 @@ class _ShoppingState extends State<Shopping> {
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           )),
-                      Text('상품명',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          )),
+                      RichText(
+                        overflow: TextOverflow.ellipsis,
+                        strutStyle: StrutStyle(fontSize: 14.0),
+                        text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            text: vo.itemcont),
+                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -275,7 +274,7 @@ class _ShoppingState extends State<Shopping> {
                               size: 15,
                             ),
                             Text(
-                              ' 4.9',
+                              ' ${vo.sstar}',
                               style: TextStyle(color: Colors.white),
                             )
                           ],
@@ -288,6 +287,7 @@ class _ShoppingState extends State<Shopping> {
                       )
                     ],
                   ),
+                  // 두번 째 컬럼 구분
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -347,8 +347,7 @@ class _ShoppingState extends State<Shopping> {
           ),
         );
       },
-      
-      childCount: (controller.shopResult.value.items!.length/2).ceil() ,
+      childCount: (controller.shopResult.value.items!.length / 2).ceil(),
     ));
   }
 }
