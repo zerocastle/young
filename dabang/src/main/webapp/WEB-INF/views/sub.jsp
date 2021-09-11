@@ -16,19 +16,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <title>Home</title>
 
-<style>
-.imgs_wrap {
-	display: flex;
-	width: 1000px;
-	height: 600px;
-}
-
-.imgs_wrap img {
-	width: 200px;
-	height: 200px;
-}
-</style>
-
 </head>
 <body>
 	<div class="container">
@@ -57,14 +44,30 @@
 				</div>
 			</div>
 
-			<div>
-				<h2>
-					<b>파일 업로드</b>
-				</h2>
-				<div class="input_wrap">
-					<input type="file" id="input_imgs" multiple />
-				</div>
+			<div class="wrapper">
+		<div class="header">
+			<h1>사진 첨부</h1>
+		</div>
+		<div class="body">
+			<!-- 첨부 버튼 -->
+			<div id="attach">
+				<label class="waves-effect waves-teal btn-flat" for="uploadInputBox">사진첨부</label>
+				<input id="uploadInputBox" style="display: none" type="file"
+					name="filedata" multiple />
 			</div>
+
+			<!-- 미리보기 영역 -->
+			<div id="preview" class="content"></div>
+
+			<!-- multipart 업로드시 영역 -->
+			<form id="uploadForm" style="display: none;" />
+		</div>
+		<div class="footer">
+			<button class="submit">
+				<a href="#" title="등록" class="btnlink">등록</a>
+			</button>
+		</div>
+	</div>
 
 			<div>
 				<div class="imgs_wrap">
@@ -132,7 +135,10 @@
 		}
 
 		function deleteImageAction(index) {
-
+			
+			var files = $("#input_imgs").target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			
 			console.log("index : " + index);
 			sel_files.splice(index, 1);
 

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get/get.dart';
 import 'package:my_app/data/network.dart';
 import 'package:provider/provider.dart';
 // import 'package:carousel_pro/carousel_pro.dart';
@@ -96,6 +98,32 @@ class _EventState extends State<Event> {
           ],
         ),
       ),
+
+      floatingActionButton: SpeedDial(
+          icon: Icons.plus_one,
+          backgroundColor: Colors.blueAccent,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.create),
+              label: '신규작성',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {
+                Get.toNamed("/boardWrite");
+              },
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.refresh),
+              label: '세로고침',
+              backgroundColor: Colors.greenAccent,
+              onTap: () {/* Do something */},
+            ),
+            // SpeedDialChild(
+            //   child: Icon(Icons.chat),
+            //   label: 'Message',
+            //   backgroundColor: Colors.amberAccent,
+            //   onTap: () {/* Do something */},
+            // ),
+          ]),
     );
   }
 
