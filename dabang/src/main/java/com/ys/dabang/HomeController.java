@@ -36,4 +36,16 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
+	public String naverlogin(Locale locale, Model model) {
+		
+		return "naverlogin";
+	}
+	
+	@RequestMapping(value = "/naverCallback", method = RequestMethod.GET)
+	public String naverCallback(Locale locale, Model model) {
+		
+		return "callback";
+	}
+	
 }
