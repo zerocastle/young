@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ys.dabang.service.BoardService;
+import com.ys.dabang.service.ShopService;
 
 import lombok.AllArgsConstructor;
 import medios.cmmn.PageInfoDTO;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/board/**")
-public class BoardController {
+@RequestMapping(value = "/shop/**")
+public class ShopController {
 
-	private BoardService service;
+	private ShopService service;
 
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
-	// 보더 리스트 페이징 처리
+	// 쇼핑 리스트 뿌리기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
 	public Map<String, Object> getList(
@@ -61,56 +61,10 @@ public class BoardController {
 		resultMap.put("pageInfo", pageInfo);
 		resultMap.put("items", itemList);
 
-		System.out.println("보더 리스트들 = > " + resultMap);
+		System.out.println("쇼팡 리스들 = > " + resultMap);
 
 		return resultMap;
 
-	}
-
-	// 베스트글 리스트
-	@CrossOrigin(origins = "*", maxAge = 3600)
-	@GetMapping(value = "/bestList")
-	public List<Map<String, Object>> bestList() throws Exception {
-		return service.bestList();
-
-	}
-
-	// 게시글 정보
-	@CrossOrigin(origins = "*", maxAge = 3600)
-	@PostMapping(value = "/boardInfo")
-	public Map<String, Object> boardInfo(@RequestBody Map param) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		resultMap.put("boardInfo", service.boardInfo(param));
-		return service.boardInfo(param);
-	}
-
-	// 댓글 리스트
-	@CrossOrigin(origins = "*", maxAge = 3600)
-	@PostMapping(value = "/repleInfo")
-	public Map<String, Object> repleInfo(@RequestBody Map param) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		System.out.println("whatther = > " + param.get("bcd"));
-		resultMap.put("items", service.repleInfo(param));
-
-		return resultMap;
-	}
-
-	// 댓글 입력
-	@CrossOrigin(origins = "*", maxAge = 3600)
-	@PostMapping(value = "/repleInsert")
-	public Map repleInsert(@RequestBody Map param) throws Exception {
-		
-		System.out.println("param = > " + param);
-
-		int count = service.repleInsert(param);
-
-		System.out.println("count = > " + count);
-
-		Map<String, String> result = new HashMap<String, String>();
-
-		result.put("result", (count > 0) ? "success" : "fail");
-
-		return result;
 	}
 
 }

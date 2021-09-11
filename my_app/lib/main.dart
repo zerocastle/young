@@ -47,9 +47,9 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: "/shopping", 
           page: ()=> Shopping(), 
-          binding: BindingsBuilder(
-            () => Get.lazyPut<ShoppingController>(() => ShoppingController()),
-          )
+          // binding: BindingsBuilder(
+          //   () => Get.lazyPut<ShoppingController>(() => ShoppingController()),
+          // )
         )
       ],
       debugShowCheckedModeBanner: false,

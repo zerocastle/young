@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-class commonRepository extends GetConnect {
-  static commonRepository get to => Get.find();
+class CommonRepository extends GetConnect {
+  static CommonRepository get to => Get.find();
   late User commmonUser;
+  Rx<String> tempId = "".obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -17,5 +18,7 @@ class commonRepository extends GetConnect {
     commmonUser = param;
     print("==========================================================");
     print(this.commmonUser);
+    tempId(this.commmonUser.email);
+    print("==========================================================");
   }
 }

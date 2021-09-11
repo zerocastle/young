@@ -32,7 +32,6 @@ class CommunityRepository extends GetConnect {
     }
   }
 
-
   // 보더 정보 들고오기
   Future<CommunityVO> getBoardInfo(dynamic data) async {
     var body = jsonEncode(
@@ -49,7 +48,7 @@ class CommunityRepository extends GetConnect {
   }
 
   // 댓글 정보 들고오기
-  Future<RepleVo> getRepleInfo(dynamic data) async{
+  Future<RepleVo> getRepleInfo(dynamic data) async {
     var body = jsonEncode(
         {'bcd': data['bcd'].toString(), 'mid': data['mid'].toString()});
     final response = await post("/board/repleInfo", body);
@@ -62,5 +61,27 @@ class CommunityRepository extends GetConnect {
       print('shit');
       return RepleVo();
     }
+  }
+
+  // 댓글 입력
+  Future<String> insertReple(dynamic data) async {
+    var body = jsonEncode({
+      'bcd': data['bcd'].toString(),
+      'mid': data['mid'].toString(),
+      'ccont': data['ccont']
+    });
+
+    final response = await post("/board/repleInsert", body);
+
+    if (response.statusCode == 200) {
+      String signal = response.body['result'];
+      if(signal == "success"){
+        return "success";
+      }else{
+        return "fail";
+      }
+    }
+
+    return "fail";
   }
 }
