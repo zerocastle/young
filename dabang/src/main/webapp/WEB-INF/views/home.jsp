@@ -32,7 +32,8 @@
 </head>
 <body>
 	<div class="container">
-		<form action="/post" method="post" enctype="multipart/form-data">
+		<form name="dataForm" id="dataForm" onsubmit="return registerAction()"
+			enctype="multipart/form-data">
 			<div class="form-group row">
 				<label for="inputTitle" class="col-sm-2 col-form-label"><strong>서브타이틀</strong></label>
 				<div class="col-sm-10">
@@ -115,7 +116,6 @@
 
 						var reader = new FileReader();
 						reader.onload = function(e) {
-							//var html = "CONTENT";
 							var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("
 									+ index
 									+ ")\" id=\"img_id_"
@@ -132,7 +132,6 @@
 		}
 
 		function deleteImageAction(index) {
-
 			console.log("index : " + index);
 			sel_files.splice(index, 1);
 
@@ -141,7 +140,46 @@
 
 			console.log(sel_files);
 		}
+
+		/*
+		 * 폼 submit 로직
+		 */
+		function registerAction() {
+			console.log(sel_files);
+			//var form = $("form")[0];
+			var formData = new FormData();
+			for (var x = 0; x < sel_files.length; x++) {
+
+				formData.append("article_file", sel_files[x]);
+			}
+			/*
+			 * 파일업로드 multiple ajax처리
+			 */
+
+			console.log(formData);
+			$.ajax({
+				type : "POST",
+				enctype : "multipart/form-data",
+				url : "/fileUpload",
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					console.log(data);
+					/* if (JSON.parse(data)['result'] == "OK") {
+						alert("파일업로드 성공");
+					} else
+						alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요"); */
+				},
+				error : function(xhr, status, error) {
+					alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+					return false;
+				}
+			});
+			return false;
+		}
 	</script>
+
 
 </body>
 </html>
