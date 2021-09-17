@@ -10,6 +10,7 @@ import 'package:my_app/src/controller/community_controller.dart';
 import 'package:my_app/src/controller/shopping_controller.dart';
 import 'package:my_app/src/pages/board/BoardInfo.dart';
 import 'package:my_app/src/pages/board/BoardWrite.dart';
+import 'package:my_app/src/pages/event/detail_page.dart';
 import 'package:my_app/src/pages/shopping/Shopping.dart';
 
 void main() async {
@@ -38,6 +39,15 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: "/boardWrite", 
           page: ()=> BoardWrite(), 
+          transition: Transition.zoom,
+          // binding: BindingsBuilder(
+          //   () => Get.put(BoarderinfoController())
+          // )
+        ),
+
+        GetPage(
+          name: "/envetInfo/:bcd/:mid", 
+          page: ()=> DetailPage(), 
           transition: Transition.zoom,
           // binding: BindingsBuilder(
           //   () => Get.put(BoarderinfoController())

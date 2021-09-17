@@ -8,7 +8,8 @@ class ShopRepository extends GetConnect {
   @override
   void onInit() {
     // TODO: implement onInit
-    httpClient.baseUrl = "http://192.168.15.4:8181";
+    //httpClient.baseUrl = "http://192.168.15.4:8181";
+    httpClient.baseUrl = "http://192.168.219.102:8181";
     super.onInit();
   }
 
