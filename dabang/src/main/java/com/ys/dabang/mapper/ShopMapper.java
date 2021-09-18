@@ -19,5 +19,8 @@ public interface ShopMapper {
 
 	// 게시글 들고오기
 	public List<Map<String, Object>> getList(Map param);
+	
+	// 웹 페이지 불로오기
+	public List<Map<String,Object>> moveShop();
 
 }
