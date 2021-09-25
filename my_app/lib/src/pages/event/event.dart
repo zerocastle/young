@@ -290,7 +290,7 @@ Future<dynamic> boardOrder(String order) async {
   // String url = "http://192.168.15.4:3000/login";
   // String url = "http://192.168.15.4:8181" + order;
   //String url = "http://192.168.15.4:8181" + order;
-  String url = "http://192.168.219.101:8181" + order;
+  String url = "http://www.goondabang.com" + order;
   
   print("url ::: $url");
   Network network = Network(url);

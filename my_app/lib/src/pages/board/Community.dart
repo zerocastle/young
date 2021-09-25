@@ -475,7 +475,7 @@ class _CommunityState extends State<Community> {
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
     //String url = "http://192.168.15.4:8181" + order;
-    String url = "http://192.168.219.101:8181" + order;
+    String url = "http://www.goondabang.com" + order;
     
     
     Network network = Network(url);
