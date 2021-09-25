@@ -39,5 +39,21 @@
 			 WHERE AAA.RNUM BETWEEN #{START} AND #{END}
  		]]>
  	</sql>
+ 	
+ 	
+ 	<!-- 게시물 불러오기 (웹 페이지)-->
+	<select id="moveShop" resultType="hashMap">
+		SELECT 
+	    		ITEMCD,
+	    		SSTAR,
+	    		PRICE,
+	    		TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE,
+	    		ITEMURL,
+	    		SUBTITLE,
+	    		ITEMCONT,
+	    		CATECD
+	    	FROM SHOP
+	    	ORDER BY 4,2 DESC
+	</select>
 
 </mapper>

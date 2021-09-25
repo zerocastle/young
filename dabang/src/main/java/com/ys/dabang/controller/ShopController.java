@@ -7,20 +7,20 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ys.dabang.service.ShopService;
 
 import lombok.AllArgsConstructor;
 import medios.cmmn.PageInfoDTO;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping(value = "/shop/**")
 public class ShopController {
@@ -32,7 +32,7 @@ public class ShopController {
 	// 쇼핑 리스트 뿌리기
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping(value = "/getList")
-	public Map<String, Object> getList(
+	public @ResponseBody Map<String, Object> getList(
 			@RequestParam(value = "nextToken", required = false, defaultValue = "1") int nextToken) throws Exception {
 		PageInfoDTO pageInfoDTO = new PageInfoDTO(nextToken);
 		Map<String, Object> param = pageInfoDTO.makePageNumber();
@@ -67,4 +67,24 @@ public class ShopController {
 
 	}
 
+	// 쇼핑 페이지로이동
+	// 쇼핑 리스트 뿌리기
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@GetMapping(value = "/moveShop")
+	public String moveShop(Model model) {
+
+		model.addAttribute("shopList", service.moveShop());
+
+		return "/shopList";
+	}
+	
+	// 쇼핑 페이지 작성 페이지
+	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@GetMapping(value = "/writeShop")
+	public String writeShop(Model model) {
+		
+		return "/writeShop";
+	}
+	
 }

@@ -64,9 +64,11 @@ dependencies:
   #datetime_picker
   scroll_date_picker: ^2.0.5
   kakao_flutter_sdk: ^0.7.1
+  kakaomap_webview: ^0.2.2+1
 
   #speed_dial
   flutter_speed_dial: ^3.0.5
+  flutter_rating_bar: ^4.0.0
 dev_dependencies:
   
   flutter_test:

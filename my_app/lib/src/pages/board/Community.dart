@@ -474,7 +474,10 @@ class _CommunityState extends State<Community> {
   Future<dynamic> boardOrder(String order) async {
     // String url = "http://localhost:3000/login";
     // String url = "http://192.168.15.4:3000/login";
-    String url = "http://192.168.15.4:8181" + order;
+    //String url = "http://192.168.15.4:8181" + order;
+    String url = "http://www.goondabang.com" + order;
+    
+    
     Network network = Network(url);
     var data = await network.getJsonData();
     // Iterable l =data;

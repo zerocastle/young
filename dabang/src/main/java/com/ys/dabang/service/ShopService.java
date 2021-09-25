@@ -19,5 +19,11 @@ public class ShopService {
 	public List<Map<String, Object>> getList(Map param) {
 		return mapper.getList(param);
 	}
+	
+	// 웹 페이지 불로오기
+	public List<Map<String,Object>> moveShop(){
+		return mapper.moveShop();
+	}
+	
 
 }
